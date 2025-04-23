@@ -1,0 +1,60 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Sudeshna Bera",
+      "phone": "9134756",
+      "email": "sudeshna@test.com",
+      "password": "password123"
+    },
+    {
+      "id": "3f3f",
+      "username": "Babli",
+      "email": "sudeshna.bera976@gmail.com",
+      "phone": "1244",
+      "password": "1"
+    },
+    {
+      "id": "4150",
+      "username": "Reprehenderit numqu",
+      "email": "lehiwa@mailinator.com",
+      "phone": "13",
+      "password": "Pa$$w0rd!"
+    },
+    {
+      "id": "5183",
+      "username": "Quisquam harum iusto",
+      "email": "cilasygifu@mailinator.com",
+      "phone": "42",
+      "password": "Pa$$w0rd!"
+    },
+    {
+      "id": "2bb2",
+      "username": "Minim non ut volupta",
+      "email": "cejumemuc@mailinator.com",
+      "phone": "24",
+      "password": "Pa$$w0rd!"
+    },
+    {
+      "id": "b2df",
+      "username": "Sunt ut officia ea ",
+      "email": "xixy@mailinator.com",
+      "phone": "68",
+      "password": "Pa$$w0rd!"
+    },
+    {
+      "id": "7599",
+      "username": "Dolores voluptatem u",
+      "email": "mesun@mailinator.com",
+      "phone": "66",
+      "password": "Pa$$w0rd!"
+    },
+    {
+      "id": "d455",
+      "username": "Et amet accusantium",
+      "email": "wanawubu@mailinator.com",
+      "phone": "85",
+      "password": "Pa$$w0rd!"
+    }
+  ]
+}
