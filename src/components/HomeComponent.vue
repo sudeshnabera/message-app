@@ -1,15 +1,16 @@
 <template>
   <div class="main-container">
-     <NavBarComponenet />
+     <NavBarComponenet :userData="this.userData"/>
      <div class="bottom-sec">
         <ChatUsersComponent />
-       
-          <ChatBoxComponent />
+        <ChatBoxComponent />
      </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'; // Import Axios
+
 import NavBarComponenet from './NavBarComponent.vue';
 import ChatUsersComponent from './ChatUsersComponent.vue';
 import ChatBoxComponent from './ChatBoxComponent.vue';
@@ -23,22 +24,32 @@ export default {
   name: 'HomeComponent',
   data() {
     return {
-    
+        userData:{},
+        allUserData: []
     };
   },
   mounted() {
-    // This is where you can load any data or perform actions when the component is mounted
-    // let signUp_user = localStorage.getItem("signUp-user-info");
-    // if (!signUp_user) {
-    //   this.$router.push({ name: 'SignUp' });
-    // } 
-    // let logIn_user = localStorage.getItem("logIn-user-info");
-    // if (!logIn_user) {
-    //   this.$router.push({ name: 'Login' });
-    // } 
+    this.getLoginUserData();
+    
   },
   methods: {
     
+    async getLoginUserData() {
+        const token = localStorage.getItem("token");
+        try {
+          const response = await axios.get('http://localhost:5000/api/user/profile', {
+            headers: {
+              Authorization: token
+            }
+          });
+          this.userData = response.data;
+          console.log('User data:', this.userData);
+        } catch (error) {
+          console.error(error);
+        }
+    },
+   
+
   }
 };
 </script>
@@ -66,25 +77,25 @@ button,input {
 }
 
 .main-container {
-    max-width: 1920px;
-    width: 100%;
-    min-height: 90vh;
-    height: 100%;
-    background: #49426E;
-    border-radius: 25px;
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: column;
-    align-items: center;
-    overflow: hidden;
-    border: 5px solid #E2D3F4;
-    box-shadow: 0px 0px 25px #9e8faf92;
-    margin: auto;
+  max-width: 1920px;
+  width: 100%;
+  min-height: fit-content;
+  height: 100%;
+  background: #49426E;
+  /* border-radius: 25px; */
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  /* border: 5px solid #E2D3F4; */
+  box-shadow: 0px 0px 25px #9e8faf92;
+  margin: auto;
 }
 
 .bottom-sec {
   width: 100%;
-  height: 76.5vh;
+  height:100%;
   display: flex;
   justify-content: center;
   flex-direction: row;

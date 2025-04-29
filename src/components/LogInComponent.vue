@@ -159,6 +159,7 @@ export default {
       try {
         const res = await axios.post('http://localhost:5000/api/auth/register', this.signUpData);
         alert('Sign up successful!',res);
+        localStorage.setItem('token', res.data.token);
         this.$router.push({ name: 'Login' }); // Redirect to login page
       } catch (err) {
         console.error(err);
@@ -172,7 +173,7 @@ export default {
         alert('Login successful!',res);
         // Store user/token if needed
         // localStorage.setItem('user', JSON.stringify(res.data.user));
-        // localStorage.setItem('token', res.data.token); // if using JWT later
+        localStorage.setItem('token', res.data.token); // if using JWT later
         this.$router.push({ name: 'Home' }); // Redirect to home/chat page
       } catch (err) {
         console.error(err);
