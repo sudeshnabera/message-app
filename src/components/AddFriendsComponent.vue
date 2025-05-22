@@ -1,16 +1,16 @@
 <template>
-    <div class="container bg-white">
+    <div class="bg-white">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-8 w-100">
                 <div class="people-nearby">
                     <div class="nearby-user"  v-for="user in allUserData.users" :key="user.id">
                         <div class="row">
-                            <div class="col-md-2 col-sm-2">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user" class="profile-photo-lg">
+                            <div class="col-md-2 col-sm-2" >
+                                <img :src="user.profilePhoto" alt="user" class="profile-photo-lg">
                             </div>
                             <div class="col-md-7 col-sm-7">
-                                <h5><a href="#" class="profile-link">{{user.username}}</a></h5>
-                                <p>Software Engineer</p>
+                                <h5><a href="#" class="profile-link">{{user.name}}</a></h5>
+                                <p>{{user.bio}}</p>
                                 <p class="text-muted">500m away</p>
                             </div>
                             <div class="col-md-3 col-sm-3">
@@ -45,7 +45,7 @@ export default {
                 }
             });
             console.log('response', response.data);
-            this.allUserData = response.data;
+            this.allUserData = response.data
            
             } catch (error) {
             console.error(error);

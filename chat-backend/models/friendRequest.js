@@ -10,18 +10,26 @@ const FriendRequest = sequelize.define('FriendRequest', {
   senderId: {
     type: DataTypes.INTEGER,
     allowNull: false,
+    references: {
+      model: 'Users', 
+      key: 'id',
+    }
   },
   receiverId: {
     type: DataTypes.INTEGER,
     allowNull: false,
+    references: {
+      model: 'Users',
+      key: 'id',
+    }
   },
   status: {
     type: DataTypes.ENUM('pending', 'accepted', 'rejected'),
     defaultValue: 'pending',
   }
 }, {
+  tableName: 'friend_requests',
   timestamps: true,
 });
 
 module.exports = FriendRequest;
-

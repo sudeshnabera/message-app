@@ -1,5 +1,4 @@
-const FriendRequest = require('../models/friendRequest');
-const User = require('../models/user');
+const { FriendRequest, User } = require('../models');
 
 exports.getFriendRequests = async (req, res) => {
   try {
@@ -12,7 +11,7 @@ exports.getFriendRequests = async (req, res) => {
         {
           model: User,
           as: 'sender',
-          attributes: ['id', 'username', 'email']
+         
         }
       ]
     });
@@ -59,3 +58,38 @@ exports.sendFriendRequest = async (req, res) => {
     }
   };
   
+  exports.acceptFriendRequest = async (req, res) => {
+    try {
+      const userId = req.user.id; // The current logged-in user
+      const { requestId } = req.params; // The ID of the friend request to accept
+  
+      // Find the friend request
+      const friendRequest = await FriendRequest.findOne({
+        where: {
+          id: requestId,
+          receiverId: userId, // Ensure the current user is the receiver
+          status: 'pending', // Only allow accepting pending requests
+        },
+      });
+  
+      if (!friendRequest) {
+        return res.status(404).json({ message: 'Friend request not found or already processed.' });
+      }
+  
+      // Update the status to "accepted"
+      friendRequest.status = 'accepted';
+      await friendRequest.save();
+  
+      // Optionally, create a friendship record if needed
+      // Example: Create a new friendship entry in a Friendship model
+      // await Friendship.create({
+      //   userId1: friendRequest.senderId,
+      //   userId2: friendRequest.receiverId,
+      // });
+  
+      res.status(200).json({ message: 'Friend request accepted successfully.' });
+    } catch (err) {
+      console.error('Error accepting friend request:', err);
+      res.status(500).json({ message: 'Error accepting friend request', error: err.message });
+    }
+  };

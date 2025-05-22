@@ -1,22 +1,19 @@
 <template>
   <div class="main-container">
-     <NavBarComponenet :userData="this.userData"/>
-     <div class="bottom-sec">
-        <ChatUsersComponent />
-        <ChatBoxComponent />
+     <div class="d-flex w-100 gap-4">
+      <ChatUsersComponent />
+      <ChatBoxComponent />
      </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'; // Import Axios
+// import axios from 'axios'; // Import Axios
 
-import NavBarComponenet from './NavBarComponent.vue';
 import ChatUsersComponent from './ChatUsersComponent.vue';
 import ChatBoxComponent from './ChatBoxComponent.vue';
 export default {
   components: {
-    NavBarComponenet,
     ChatUsersComponent, 
     ChatBoxComponent
 
@@ -25,30 +22,15 @@ export default {
   data() {
     return {
         userData:{},
-        allUserData: []
+
     };
   },
   mounted() {
-    this.getLoginUserData();
+
     
   },
   methods: {
-    
-    async getLoginUserData() {
-        const token = localStorage.getItem("token");
-        try {
-          const response = await axios.get('http://localhost:5000/api/user/profile', {
-            headers: {
-              Authorization: token
-            }
-          });
-          this.userData = response.data;
-          console.log('User data:', this.userData);
-        } catch (error) {
-          console.error(error);
-        }
-    },
-   
+
 
   }
 };
@@ -81,7 +63,7 @@ button,input {
   width: 100%;
   min-height: fit-content;
   height: 100%;
-  background: #49426E;
+
   /* border-radius: 25px; */
   display: flex;
   justify-content: flex-start;

@@ -1,186 +1,135 @@
 <template>
-        <div class="nav-container navbar navbar-expand-lg sticky-top w-100">
-            <!-- Logo -->
-             <div>
-                <a class="navbar-brand" href="#">
-                    <img src="/placeholder.svg?height=40&width=120" alt="Logo">
+    <nav class="navbar navbar-expand-lg sticky-top bg-white shadow-sm px-3 py-2 w-100">
+        <div class="container-fluid">
+          
+          <!-- Logo -->
+          <a class="navbar-brand" href="#">
+           <!-- // <img src="@/assets/images/talksy_logo.webp" alt="Logo"> -->
+            <h3 class="talksy_logo">Talksy</h3>
+             
+          </a>
+      
+          <!-- Hamburger Menu Button -->
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <!-- <span class="nav-toggle" @click="toggleMenu()">☰</span> -->
+          <!-- Navbar Content -->
+          <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+              
+              <!-- Home -->
+              <li class="nav-item">
+                <a class="nav-link active" href="/home">
+                  <i class="fas fa-home"></i>
+                  <span class="d-lg-none ms-2">Home</span>
                 </a>
-             </div>
-            
-            
-            <!-- Search Bar - Visible on desktop -->
-            <!-- <div class="search-container d-none d-lg-block">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" placeholder="Search...">
-            </div> -->
-            
-            <!-- Hamburger Menu Button -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
-                <i class="fas fa-bars"></i>
-            </button>
-            
-            <!-- Navbar Content -->
-            <div class="collapse navbar-collapse" id="navbarContent">
-                <!-- Search Bar - Visible on mobile -->
-                <!-- <div class="search-container d-block d-lg-none">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" placeholder="Search...">
-                </div> -->
-                
-                <!-- Main Navigation -->
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">
-                            <i class="fas fa-home"></i>
-                            <span class="d-lg-none ms-2">Home</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-newspaper"></i>
-                            <span class="d-lg-none ms-2">News Feed</span>
-                        </a>
-                    </li>
-                    <!-- Payment -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-wallet"></i>
-                            <span class="d-lg-none ms-2">Payments</span>
-                        </a>
-                    </li>
-                    
-                    <!-- Notifications Dropdown -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-bell"></i>
-                            <span class="badge-notification">3</span>
-                            <span class="d-lg-none ms-2">Notifications</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end">
-                            <div class="dropdown-header">Notifications</div>
-                            
-                            <a class="dropdown-item" href="#">
-                                <div class="icon">
-                                    <i class="fas fa-heart"></i>
-                                </div>
-                                <div class="content">
-                                    <div class="title">John Doe liked your post</div>
-                                    <div class="subtitle">Your photo received a new like</div>
-                                </div>
-                                <div class="time">2m</div>
-                            </a>
-                            
-                            <a class="dropdown-item" href="#">
-                                <div class="icon">
-                                    <i class="fas fa-comment"></i>
-                                </div>
-                                <div class="content">
-                                    <div class="title">New comment from Sarah</div>
-                                    <div class="subtitle">Sarah commented on your photo</div>
-                                </div>
-                                <div class="time">1h</div>
-                            </a>
-                            
-                            <a class="dropdown-item" href="#">
-                                <div class="icon">
-                                    <i class="fas fa-calendar"></i>
-                                </div>
-                                <div class="content">
-                                    <div class="title">Event Reminder</div>
-                                    <div class="subtitle">Team meeting starts in 30 minutes</div>
-                                </div>
-                                <div class="time">30m</div>
-                            </a>
-                            
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text-center" href="#">See all notifications</a>
-                        </div>
-                    </li>
-                    
-                    <!-- Friend Requests Dropdown -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-user-friends"></i>
-                            <span class="badge-notification">2</span>
-                            <span class="d-lg-none ms-2">Friend Requests</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end">
-                            <div class="dropdown-header">Friend Requests</div>
-                            
-                            <a class="dropdown-item" href="#">
-                                <div class="icon">
-                                    <img src="/placeholder.svg?height=36&width=36" alt="User" style="border-radius: 50%;">
-                                </div>
-                                <div class="content">
-                                    <div class="title">Michael Johnson</div>
-                                    <div class="subtitle">2 mutual friends</div>
-                                </div>
-                                <div>
-                                    <button class="btn btn-sm btn-primary">Accept</button>
-                                </div>
-                            </a>
-                            <a class="dropdown-item" href="#">
-                                <div class="icon">
-                                    <img src="/placeholder.svg?height=36&width=36" alt="User" style="border-radius: 50%;">
-                                </div>
-                                <div class="content">
-                                    <div class="title">Emily Wilson</div>
-                                    <div class="subtitle">5 mutual friends</div>
-                                </div>
-                                <div>
-                                    <button class="btn btn-sm btn-primary">Accept</button>
-                                </div>
-                            </a>
-                            
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text-center" href="#">See all requests</a>
-                        </div>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="/user/list">
-                            <i class="fa-solid fa-user-group"></i>
-                            <span class="d-lg-none ms-2">Add Friends</span>
-                        </a>
-                    </li>
-                    <!-- Profile Dropdown -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown">
-                            <img src="/placeholder.svg?height=30&width=30" alt="Profile" style="border-radius: 50%;">
-                            <span class="d-lg-none ms-2">Profile</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end profile-dropdown">
-                            <div class="profile-header">
-                                <div class="profile-pic">
-                                    <img src="/placeholder.svg?height=60&width=60" alt="Profile">
-                                </div>
-                                <div class="profile-info" v-if="userData">
-                                    <h6>{{userData.user.username}}</h6>
-                                    <p>{{userData.user.email}}</p>
-                                </div>
-
-                            </div>
-                            
-                            <a class="dropdown-item" href="#">
-                                <i class="fas fa-user me-2"></i> My Profile
-                            </a>
-                            <a class="dropdown-item" href="#">
-                                <i class="fas fa-cog me-2"></i> Settings
-                            </a>
-                            <a class="dropdown-item" href="#">
-                                <i class="fas fa-wallet me-2"></i> My Wallet
-                            </a>
-                            <a class="dropdown-item" href="#">
-                                <i class="fas fa-question-circle me-2"></i> Help Center
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">
-                                <i class="fas fa-sign-out-alt me-2"></i> Logout
-                            </a>
-                        </div>
-                    </li>
+              </li>
+      
+              <!-- News Feed -->
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <i class="fas fa-newspaper"></i>
+                  <span class="d-lg-none ms-2">News Feed</span>
+                </a>
+              </li>
+      
+              <!-- Payments -->
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <i class="fas fa-wallet"></i>
+                  <span class="d-lg-none ms-2">Payments</span>
+                </a>
+              </li>
+      
+              <!-- Notifications Dropdown -->
+              <li class="nav-item dropdown">
+                <a class="nav-link position-relative" href="#" role="button" data-bs-toggle="dropdown">
+                  <i class="fas fa-bell"></i>
+                  <span class="badge bg-danger position-absolute top-0 start-100 translate-middle badge-notification">3</span>
+                  <span class="d-lg-none ms-2">Notifications</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li class="dropdown-header">Notifications</li>
+                  <li>
+                    <a class="dropdown-item d-flex align-items-start" href="#">
+                      <i class="fas fa-heart me-2 text-danger"></i>
+                      <div>
+                        <div class="fw-bold">John Doe liked your post</div>
+                        <small class="text-muted">2m ago</small>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item d-flex align-items-start" href="#">
+                      <i class="fas fa-comment me-2 text-primary"></i>
+                      <div>
+                        <div class="fw-bold">New comment from Sarah</div>
+                        <small class="text-muted">1h ago</small>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item d-flex align-items-start" href="#">
+                      <i class="fas fa-calendar me-2 text-success"></i>
+                      <div>
+                        <div class="fw-bold">Event Reminder</div>
+                        <small class="text-muted">30m ago</small>
+                      </div>
+                    </a>
+                  </li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item text-center" href="#">See all notifications</a></li>
                 </ul>
-            </div>
+              </li>
+      
+              <!-- Friend Requests -->
+              <li class="nav-item dropdown">
+                <a class="nav-link position-relative" href="/friend/request">
+                  <i class="fas fa-user-friends"></i>
+                  <span class="badge bg-danger position-absolute top-0 start-100 translate-middle badge-notification">2</span>
+                  <span class="d-lg-none ms-2">Friend Requests</span>
+                </a>
+              </li>
+      
+              <!-- Add Friends -->
+              <li class="nav-item">
+                <a class="nav-link" href="/user/list">
+                  <i class="fa-solid fa-user-group"></i>
+                  <span class="d-lg-none ms-2">Add Friends</span>
+                </a>
+              </li>
+      
+              <!-- Profile Dropdown -->
+              <li class="nav-item dropdown">
+                <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown">
+                  <img :src="userData.user.profilePhoto" alt="Profile" class="rounded-circle"  style="width: 2.8rem;">
+                  <span class="d-lg-none ms-2">Profile</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li class="px-3 py-2 text-center"> 
+                    <img :src="userData.user.profilePhoto" alt="Profile" class="rounded-circle mb-2"  style="width:70px;">
+                    <div v-if="userData">
+                      <strong>{{userData.user.name}}</strong>
+                      <br>
+                      <small class="text-muted">{{userData.user.bio}}</small>
+                    </div>
+                  </li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> My Profile</a></li>
+                  <li><a class="dropdown-item" href="#" @click.prevent="navigateToSettings"><i class="fas fa-cog me-2"></i> Settings</a></li>
+                  <li><a class="dropdown-item" href="#"><i class="fas fa-wallet me-2"></i> My Wallet</a></li>
+                  <li><a class="dropdown-item" href="#"><i class="fas fa-question-circle me-2"></i> Help Center</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#" @click.prevent="logout"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                </ul>
+              </li>
+      
+            </ul>
+          </div>
         </div>
+      </nav>
+      
 </template>
 <script>
 export default {
@@ -189,11 +138,13 @@ export default {
         userData: {
             type: Object,
             required: true
-        }
+        },
+       
+      
     },
     data() {
         return {
-            
+             talksy_logo:'/src/assets/images/talksy_logo.webp',
         };
     },
     mounted() {
@@ -202,7 +153,20 @@ export default {
     methods: {
         navigateTo(page) {
             this.$router.push({ name: page });
-        }
+        },
+        logout() {
+          // Clear the token from localStorage
+          localStorage.removeItem("token");
+
+          // Redirect the user to the login page
+          this.$router.push({ name: "Login" });
+        },
+        navigateToSettings() {
+          this.$router.push({
+            name: "ProfileSetting",
+            params: { userData: this.userData }, // Pass userData as a route param
+          });
+        },
     }
 };  
 </script>
@@ -375,7 +339,9 @@ export default {
     transform: translateY(-50%);
     color: var(--light-text);
 }
-
+.nav-link i {
+     color: #004953;
+}
 /* Mobile optimizations */
 @media (max-width: 991.98px) {
     .navbar-collapse {
@@ -425,4 +391,31 @@ export default {
         right: auto;
     }
 }
+
+
+    .talksy_logo {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: #004953;
+      position: relative;
+      letter-spacing: 0.5px;
+    }
+
+
+
+    .talksy_logo::after {
+      content: "";
+      position: absolute;
+      width: 70px;
+      height: 3px;
+      background: linear-gradient(90deg, #004953 0%, transparent 100%);
+      bottom: 0;
+      left: 0;
+      border-radius: 3px;
+    }
+
 </style>

@@ -4,7 +4,17 @@ const User = require("../models/user");
 
 // Register a new user
 exports.registerUser = async (req, res) => {
-  const { username, email, password, phone } = req.body;
+  const {
+    username,
+    email,
+    password,
+    phone,
+    name,
+    bio,
+    dob,
+    gender,
+    profilePhoto,
+  } = req.body;
 
   try {
     // Check if user already exists
@@ -22,6 +32,11 @@ exports.registerUser = async (req, res) => {
       email,
       password: hashedPassword,
       phone,
+      name,
+      bio,
+      dob,
+      gender,
+      profilePhoto,
     });
 
     // Send success response
@@ -63,6 +78,11 @@ exports.loginUser = async (req, res) => {
         username: user.username,
         email: user.email,
         phone: user.phone,
+        name: user.name,
+        bio: user.bio,
+        dob: user.dob,
+        gender: user.gender,
+        profilePhoto: user.profilePhoto,
       },
     });
   } catch (err) {

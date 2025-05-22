@@ -124,7 +124,6 @@ export default {
     max-width: 1024px;
     height: 650px;
     background-color: #fff;
-    border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
@@ -132,9 +131,9 @@ export default {
 }
 
 .chat-header {
-    background-color: #4a5568;
+    background-color: #004953;
     color: white;
-    padding: 0px 20px;
+    padding: 15px 20px;
     display: flex;
     align-items: center;
     border-bottom: 1px solid #e2e8f0;

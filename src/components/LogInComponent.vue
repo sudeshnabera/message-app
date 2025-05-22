@@ -1,69 +1,20 @@
 <template>
-  <div class="main">
-    <!-- <input type="checkbox" id="chk" aria-hidden="true"> -->
-    <div class="signup" v-if="$route.name === 'SignUp'">
-      <form @submit.prevent="handleSignUp">
-        <label for="chk">Sign up</label>
-        <input
-          type="text"
-          v-model="signUpData.username"
-          placeholder="User name"
-          required
-        />
-        <input
-          type="email"
-          v-model="signUpData.email"
-          placeholder="Email"
-          required
-        />
-        <input
-          type="number"
-          v-model="signUpData.phone"
-          placeholder="BrojTelefona"
-          required
-        />
-        <input
-          type="password"
-          v-model="signUpData.password"
-          placeholder="Password"
-          required
-        />
-        <button type="submit">Sign up</button>
-        <p>
-          Already have an account?
-          <a href="#" @click.prevent="navigateTo('Login')">Login</a>
-        </p>
-        <div class="social-login">
-          <p>Or log in with:</p>
-          <div id="google-login-button"></div>
-          <button @click.prevent="signInWithFacebook" class="facebook">
-            Facebook
-          </button>
+  <div class="container">
+    <header>Login Form</header>
+    <div>
+        <div class="field">
+          <div class="label">Username</div>
+          <input type="text" v-model="email"/>
         </div>
-      </form>
-    </div>
-
-    <div class="login" v-else>
-      <form @submit.prevent="handleLogin">
-        <label for="chk">Login</label>
-        <input
-          type="email"
-          v-model="loginData.email"
-          placeholder="Email"
-          required
-        />
-        <input
-          type="password"
-          v-model="loginData.password"
-          placeholder="Password"
-          required
-        />
-        <button type="submit">Login</button>
-        <p>
+        <div class="field">
+          <div class="label">Password</div>
+          <input type="password" v-model="password"/>
+        </div>
+        <button  @click.prevent="handleLogin">Login</button>
+        <p style="margin-top: 1rem;">
           Don't have an account?
-          <a href="#" @click.prevent="navigateTo('SignUp')">Sign up</a>
+          <a href="/sign-up">Sign up</a>
         </p>
-      </form>
     </div>
   </div>
 </template>
@@ -73,16 +24,8 @@ import axios from 'axios'; // Import Axios
 export default {
   data() {
     return {
-      signUpData: {
-        username: "",
-        email: "",
-        phone: "",
-        password: "",
-      },
-      loginData: {
         email: "",
         password: "",
-      },
     };
   },
   mounted() {
@@ -155,21 +98,18 @@ export default {
     //   // // Redirect to /home
     //   // this.$router.push("/home");
     // }
-    async handleSignUp() {
-      try {
-        const res = await axios.post('http://localhost:5000/api/auth/register', this.signUpData);
-        alert('Sign up successful!',res);
-        localStorage.setItem('token', res.data.token);
-        this.$router.push({ name: 'Login' }); // Redirect to login page
-      } catch (err) {
-        console.error(err);
-        alert(err.response?.data?.message || 'Sign up failed!');
-      }
-    },
+   
 
   async handleLogin() {
       try {
-        const res = await axios.post('http://localhost:5000/api/auth/login', this.loginData);
+        const res = await axios.post('http://localhost:5000/api/auth/login', {
+          email: this.email,
+          password: this.password
+        }, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
         alert('Login successful!',res);
         // Store user/token if needed
         // localStorage.setItem('user', JSON.stringify(res.data.user));
@@ -190,9 +130,59 @@ export default {
 </script>
 
 <style scoped>
-/* Keep your existing styles here */
-.signup p,
-.login p {
+.container{
+  width: 100%;
+  max-width: 470px;
+  background: #fff;
   text-align: center;
+  border-radius: 5px;
+  padding: 50px 35px 10px 35px;
+  border: 1px solid;
+  display: flex;
+  flex-direction: column;
+  align-content: space-around;
+  justify-content: center;
+}
+.container header{
+  font-size: 35px;
+  font-weight: 600;
+  margin: 0 0 30px 0;
+}
+ .field{
+  width: 330px;
+  height: 45px;
+  margin: 45px 0;
+  display: flex;
+  position: relative;
+  gap:25px;
+}
+ .label{
+  position: absolute;
+  top: -30px;
+  font-weight: 500;
+}
+ input{
+  height: 100%;
+  width: 100%;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  padding-left: 15px;
+  font-size: 18px;
+}
+ button{
+  width: 64%;
+    height: calc(100% + 5px);
+    border: none;
+    background: #004953;
+    margin-top: -20px;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: 0.5s ease;
+    padding: 11px;
 }
 </style>

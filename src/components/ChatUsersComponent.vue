@@ -1,133 +1,149 @@
 <template>
-    <div class="side-menu" id="SideMenu">
-        <ul>
-          <li>
-            <img src="../assets/images/home-icon.png" alt=""/>
-            <a href="#" class="active">Home</a>
-          </li>
-          <li>
-            <img src="../assets/images/group-icon.png" alt=""/>
-            <a href="#">Groups</a>
-          </li>
-          <li>
-            <img src="../assets/images/profile-icon.png" alt=""/>
-            <a href="#">Profile</a>
-          </li>
-          <li>
-            <img src="../assets/images/notification-icon.png" alt=""/>
-            <a href="#">Notifications</a>
-          </li>
-          <li>
-            <img src="../assets/images/logout-icon.png" alt=""/>
-            <a href="#">Logout</a>
-          </li>
-        </ul>
-        <div class="chat-sec">
-            <div class="chat">
-                <img src="../assets/images/img-05.jpg" alt=""/>
-                <p>Liam Brown</p>
+   <!-- Left Sidebar - Friend List -->
+		<div class="sidebar friend-list">
+            <div class="filter-menu">
+                <button class="filter-button"
+                    :class="{ active: activeFilter === 'All' }"
+                    @click="setFilter('All')">All</button>
+                <!-- <button class="filter-button">Favorites</button> -->
+                <button class="filter-button"
+                    :class="{ active: activeFilter === 'Groups' }"
+                    @click="setFilter('Groups')">Groups</button>
             </div>
-            <div class="chat">
-                <img src="../assets/images/img-02.jpg" alt=""/>
-                <p>Emma Johnson</p>
-            </div>
-            <div class="chat">
-                <img src="../assets/images/img-03.jpg" alt=""/>
-                <p>Sophia Martinez</p>
-            </div>
-            <div class="chat">
-                <img src="../assets/images/img-06.jpg" alt=""/>
-                <p>Noah Wilson</p>
-            </div>
-          </div>
-    </div>
+			<div class="friend-item" v-for="friend in friends" :key="friend.id">
+				<img :src='friend.profilePhoto' alt="Friend 1">
+				<span>{{friend.name}}</span>
+				<span class="status online"></span>
+			</div>
+			
+		</div>
 </template>
 <script>
+import axios from 'axios'; // Import Axios
+export default {
+  name: 'ChatUsersComponent',
+  data() {
+    return {
+      friends: [
+       
+      ],
+      activeFilter: 'All',
+    };
+  },
+  mounted(){
+    this.getAllfriendsData();
+  },
+  methods: {
+        async getAllfriendsData() {
+            const token = localStorage.getItem("token");
+            try {
+                const response = await axios.get('http://localhost:5000/api/friend/list', {
+                    headers: {
+                        Authorization: token
+                    }
+                });
+                console.log('response', response.data.friends);
+                this.friends = response.data.friends;
+            } catch (error) {
+                console.error(error);
+            }
+        },
+        setFilter(filter) {
+            this.activeFilter = filter;
+        },
+   }
+};
 
 </script>
 <style scoped>
 
+ .filter-menu {
+      display: flex;
+      gap: 8px;
+      padding: 12px 16px;
+      border-radius: 8px;
+    }
 
-.side-menu {
+    .filter-button {
+      background-color: transparent;
+      color: #9e9e9e;
+      border: none;
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.2s, color 0.2s;
+      border: 1px solid #004953;
+      color: #004953;
+    }
+
+    .filter-button:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid #004953;
+      color: #004953;
+    }
+
+    .filter-button.active {
+      background-color: #004953;
+      color: #ffffff;
+    }
+/* Sidebar Styles */
+.sidebar {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    height: calc(100vh - 100px);
+    overflow-y: auto;
+}
+
+.friend-list {
     width: 250px;
-    height: 100%;
-    overflow-x: hidden;
-    overflow-y: scroll;
 }
 
-.side-menu::-webkit-scrollbar {
-    display: none;
+.friend-list h2 {
+    margin-bottom: 20px;
+    color: #1c1e21;
+    font-size: 20px;
 }
 
-.side-menu ul {
-    list-style-type: none;
-    background: #332F54;
-    padding: 40px 20px 20px 20px;
-    border-radius: 20px;
-}
-
-.side-menu ul li {
-    margin: 15px 0;
+.friend-item {
     display: flex;
     align-items: center;
-    gap: 15px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f2f5;
 }
 
-.side-menu ul li:first-child {
-    margin-top: 0;
-}
-
-.side-menu ul li img {
-    width: 25px;
-}
-
-.side-menu ul li a {
-    text-decoration: none;
-    color: #E2D3F4;
-    font-weight: 500;
-    font-size: 18px;
-    transition: 0.4s;
-}
-
-.side-menu ul li a:hover, .side-menu ul li .active {
-    color: #fff;
-}
-
-.chat-sec {
-    width: 100%;
-    height: fit-content;
-    margin-top: 20px;
-}
-
-.chat {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  margin: 10px 0;
-  background: #332F54;
-  padding: 10px 20px;
-  border-radius: 15px;
-  transition: 0.4s;    
-}
-.chat img {
-    width: 35px;
+.friend-item img {
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    border: 3px solid #EEC291;
+    margin-right: 10px;
 }
 
-.chat p {
-    font-size: 17px;
-    color: #E2D3F4;
-    font-weight: 500;
-    transition: 0.4s;
+.status {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-left: auto;
 }
 
-.chat:hover {
-    background: #E2D3F4;
+.online {
+    background-color: #31a24c;
 }
 
-.chat:hover p {
-    color: #332F54;
+.offline {
+    background-color: #65676b;
 }
+
+.view-more {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.view-more a {
+    color: #1877f2;
+    text-decoration: none;
+}
+
 </style>

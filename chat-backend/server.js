@@ -8,6 +8,7 @@ const messageRoutes = require('./routes/message');
 const getProfileData = require('./routes/user');
 const friendRoutes  = require('./routes/friendRequest');
 const getUserList = require('./routes/userList');
+const friendsListRoute = require('./routes/friendsList');
 dotenv.config();
 const app = express();
 
@@ -22,6 +23,7 @@ app.use('/api/messages', messageRoutes);
 app.use('/api/user', getProfileData);
 app.use('/api/friend', friendRoutes );
 app.use('/api/all_user', getUserList);
+app.use('/api/friend', friendsListRoute);
 
 // Test DB connection and sync
 sequelize.authenticate()
