@@ -3,9 +3,9 @@
     <div class="d-flex w-100 gap-4">
       <ChatUsersComponent :groups="groups" :friends="friends"  @user-selected="openChatWithUser"/>
       <ChatBoxComponent  :userData="userData"
-        :selectedUser="selectedUser"
+        :selectedChat="selectedChat"
         v-if="activeChat"
-        :key="selectedUser?._id"/>
+        :key="selectedChat?._id"/>
       <PostComponent :userData="userData" v-else/>
     </div>
   </div>
@@ -28,13 +28,17 @@ export default {
     return {
       friends:[],
       groups:[],
-      selectedUser: null, 
+      selectedChat: null, 
       activeChat:false,
+       socket: null,
     };
   },
   mounted() {
     this.getAllfriendsData();
     this.getUserGroups();
+      this.$socket.on("new_message_notification", (notif) => {
+            this.handleNotification(notif);
+        });
   },
   methods: {
       async getAllfriendsData() {
@@ -67,7 +71,12 @@ export default {
       openChatWithUser(friend) {
         console.log("friend", friend);
         this.activeChat = true;
-        this.selectedUser = friend;
+        this.selectedChat = friend;
+      },
+      handleNotification(notification) {
+         
+              this.$toast.info(`New message from ${notification.from}: ${notification.content}`);
+          
       }
   }
 };

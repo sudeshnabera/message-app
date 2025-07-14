@@ -94,7 +94,6 @@ export default {
             console.error(error);
             }
         },
-        
         async sendRequest(receiverId) {
             const token = localStorage.getItem("token");
             try {

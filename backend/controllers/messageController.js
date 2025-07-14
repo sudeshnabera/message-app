@@ -1,15 +1,51 @@
 import messageModel from "../models/message.js"; 
 
+
 const createMessage = async (io, socket) => {
+
+  socket.on('register_user', (userId) => {
+    socket.join(userId)
+    console.log(`User ${userId} connected`);
+  });
+
+  socket.on('join_group', (groupId) => {
+    socket.join(groupId)
+    console.log(`${groupId} connected`);
+  });
+
   socket.on('send_message', async (data) => {
     try {
-      const message = new messageModel(data); // create a new message instance
+      const message = new messageModel(data);
       await message.save();
-      io.emit('receive_message', message); // broadcast to all clients
+
+      
+
+      if (data.receiver) {
+        socket.emit('receive_message', message);
+        io.to(data.receiver).emit('receive_message', message);
+        io.to(data.receiver).emit('new_message_notification', {
+          from: data.sender,
+          content: data.content,
+          timestamp: message.timestamp
+        });
+      }else if (data.groupId) {
+        io.to(data.groupId).emit('receive_message', message);
+        socket.to(data.groupId).emit('new_message_notification', {
+          from: data.sender,
+          groupId: data.groupId,
+          content: data.content,
+          timestamp: message.timestamp
+        });
+      }
+
     } catch (err) {
       console.error("Error saving message:", err);
       socket.emit('error', 'Message could not be saved');
     }
+  });
+
+   socket.on('disconnect', () => {
+    console.log(`User ${socket.id} disconnected`);
   });
 }
 

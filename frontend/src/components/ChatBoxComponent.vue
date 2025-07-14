@@ -1,9 +1,9 @@
 <template>
     <div class="chat-container">
         <div class="chat-header">
-            <div class="avatar"><img :src="selectedUser.profilePhoto" alt=""></div>
+            <div class="avatar"><img :src="selectedChat.profilePhoto || selectedChat.groupPhoto" alt=""></div>
             <div class="info">
-                <h2 class="m-0">{{ selectedUser.name }}</h2>
+                <h2 class="m-0">{{ selectedChat.name }}</h2>
                 <p class="m-0">Online</p>
             </div>
             <div class="header-actions">
@@ -20,7 +20,6 @@
         </div>
         
         <div class="chat-messages">
-
             <div class="message" v-for="(message, index) in messages" :key="index" :class="message.sender === userData._id ? 'sent' : 'received'">
                 <div class="content">{{message.content}}</div>
                 <span class="time">{{message.time}}</span>
@@ -32,7 +31,8 @@
                 <div class="chat-actions">
                     <!-- Document Button -->
                     <button title="Attach Document">
-                        <i class="fas fa-file-alt"></i>
+                       <label for="upload-image"><i class="fas fa-file-alt"></i></label> 
+                        <input type="file" id="upload-image" style="display: none;" accept="image/*" @change="previewImages">
                     </button>
                     
                     <!-- Emoji Button -->
@@ -61,7 +61,6 @@
     </div>
 </template>
 <script>
-import { io } from "socket.io-client";
 import axios from "axios";
 
 export default {
@@ -71,7 +70,7 @@ export default {
             type: Object,
             required: true
         },
-        selectedUser: {
+        selectedChat: {
             type: Object,
             default: null
         }
@@ -83,31 +82,49 @@ export default {
             messages: [],
             newMessage: '',
             selectedImages:[],
+            chatDocs: null
         };
     },
+    computed: {
+        isGroupChat() {
+        return this.selectedChat && Array.isArray(this.selectedChat.members);
+        }
+    },
     mounted() {
-        console.log("selectedUser", this.selectedUser);
-        this.socket = io("http://localhost:5000");
-        this.socket.on("receive_message", (msg) => {
-            if (
-                (msg.sender === this.userData._id && msg.receiver === this.selectedUser._id) ||
-                (msg.sender === this.selectedUser._id && msg.receiver === this.userData._id)
-            ) {
-                this.messages.push(msg);
-            }
+        console.log("selected user",this.selectedChat)
+         this.$socket.emit('register_user', this.userData._id);
+        if(this.isGroupChat){
+             this.$socket.emit('join_group', this.selectedChat._id);
+        }
+         this.$socket.on("receive_message", (msg) => {
+            this.messages.push(msg);
         });
         this.getMessage();
     },
     methods: {
+        previewImages(event) {
+            const file = event.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                this.chatDocs = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        },
         sendMessage() {
             if (this.newMessage.trim() === "") return;
             const message = {
                 sender: this.userData._id,
-                receiver: this.selectedUser._id,
-                content: this.newMessage
+                content: this.newMessage,
+                chatDocs: this.chatDocs,
             };
-            console.log("message", message);
-            this.socket.emit("send_message", message);
+            if (this.isGroupChat) {
+                message.groupId = this.selectedChat._id;
+            } else {
+                message.receiver = this.selectedChat._id;
+            }
+             this.$socket.emit("send_message", message);
             this.newMessage = "";
         },
         async getMessage(){
@@ -115,7 +132,7 @@ export default {
             try {
                 const response = await axios.post(
                     "http://localhost:5000/api/messages/get", 
-                    { receiverId:this.selectedUser._id },
+                    { receiverId:this.selectedChat._id },
                     {
                         headers: {
                         Authorization: `Bearer ${token}`
@@ -128,6 +145,15 @@ export default {
             } catch (error) {
                 console.error(error);
             }
+        }, 
+        
+    },
+    watch: {
+        selectedChat(newVal) {
+            if (this.isGroupChat) {
+                this.socket.emit("join_group", newVal._id);
+            }
+            this.getMessage();
         }
     }
 };  

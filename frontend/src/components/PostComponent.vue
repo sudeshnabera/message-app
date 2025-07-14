@@ -144,36 +144,6 @@ export default {
         this.getPost()
     },
     methods: {
-        
-        async sendMessage() {
-            const token = localStorage.getItem("token");
-            if (this.newMessage.trim() == '') {
-                return;
-            }
-            try {
-                const res = await axios.post('http://localhost:5000/api/messages/send', {
-                    content: this.newMessage,
-                    receiverId: this.receiverId,
-                },
-                {
-                    headers: {
-                        Authorization: token
-                    }
-                }
-            );
-            console.log('sending message:', res);
-            this.messages.push({
-                content: this.newMessage,
-                time: new Date().toLocaleTimeString(),
-                type: 'sent',
-            });
-            console.log('sending message:', this.messages);
-
-            this.newMessage = '';
-            } catch (error) {
-                console.error('Error sending message:', error);
-            }       
-        },
 
         previewImages(event) {
             const files = event.target.files;
@@ -187,7 +157,6 @@ export default {
                 };
                 reader.readAsDataURL(file);
             }
-     
         },
         async addPost(){
             const token = localStorage.getItem("token");

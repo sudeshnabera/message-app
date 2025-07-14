@@ -7,13 +7,18 @@ const messageSchema = new mongoose.Schema({
     },
     receiver: { type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: true
+        required: false
+    },
+    groupId: { type: mongoose.Schema.Types.ObjectId,
+        ref: 'Group',
+        required: false
     },
     createdAt: {
       type: Date,
       default: Date.now
     },
     content: { type: String, required: true },
+    attachments: [{ type: String, required: false }],
     timestamp: { type: Date, default: Date.now },
   });
 
