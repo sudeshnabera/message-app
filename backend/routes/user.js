@@ -1,11 +1,17 @@
+import express from "express";
+import { getProfile, updateProfile } from "../controllers/index.js";
+import { authMiddleware, photoUpload, validate } from "../middleware/index.js";
+import { updateProfileValidation } from "../validation/index.js";
 
-import express from "express"
-import { getProfile, updateProfile } from "../controllers/userController.js"
-import authMiddleware from"../middleware/auth.js";
-
-const userRoute = express.Router()
+const userRoute = express.Router();
 
 userRoute.get("/profile", authMiddleware, getProfile);
-userRoute.put("/update", authMiddleware, updateProfile);
+userRoute.post(
+  "/update",
+  photoUpload("profile").single("profilePhoto"),
+  authMiddleware,
+  validate(updateProfileValidation),
+  updateProfile
+);
 
 export default userRoute;

@@ -1,5 +1,5 @@
 <template>
-  <div id="fb">
+  <!-- <div id="fb">
     <div v-if="friendRequests.length === 0" class="loading">No Friend Requests</div>
 
     <div v-else class="requests-container">
@@ -25,7 +25,44 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
+
+  <div class="add-friend-container">
+    <div class="search-container">
+        <div class="search-box">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+            </svg>
+            <input type="text" placeholder="Search by name or username..." id="searchInput">
+        </div>
+    </div>
+    <div v-if="friendRequests.length === 0" class="loading">No Friend Requests</div>
+
+    <div v-else class="user-grid">
+        <div class="user-card"  v-for="request in friendRequests" :key="request._id">
+            <div class="user-info">
+                <div class="avatar-container">
+                    <img  :src="request.senderId?.profilePhoto || 'default-avatar.png'" alt="Sarah Johnson" class="avatar">
+                </div>
+                <div class="user-details">
+                    <div class="user-header">
+                        <h3>{{ request.senderId?.name || 'Unknown User' }}</h3>
+                    </div>
+                    
+                    <p class="bio">{{ request.senderId?.bio}}</p>
+                    <p class="username">{{ request.senderId?.email || 'No Email' }}</p>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary add-friend-btn" @click="acceptRequest(request.senderId?._id)">Accept
+                        </button>
+                        <button type="button" style="border:1px solid #6C757E;" class="btn btn-outline-secondary">Cancel</button>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </template>
 
 <script>

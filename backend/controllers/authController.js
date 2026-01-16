@@ -1,39 +1,21 @@
 
-import userModel from "../models/user.js";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import validator from "validator";
+import { userService } from "../services/index.js";
+import { hashPassword, comparePassword } from "../helper/index.js";
+import { StatusError } from "../config/statusError.js";
 
-// Register a new user
 const registerUser = async (req, res) => {
-  const {
-    username,
-    email,
-    password,
-    phone,
-    name,
-    bio,
-    dob,
-    gender,
-    profilePhoto,
-  } = req.body;
-
+  const { username, email, password, phone, name, bio, dob, gender } = req.body;
   try {
-    // Check if user already exists
-    const existingUser = await userModel.findOne({ email });
+    const existingUser = await userService.getUserByEmail(email);
     if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
+      throw StatusError.conflict("User with this email already exists");
     }
-
-      //validating email format and Strong Password
-      if (!validator.isEmail(email)) {
-          return res.json({success:false, message:"Please enter valid email"})
-      }
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Create new user
-    const user = await userModel.create({
+    const hashedPassword = await hashPassword(password);
+    let profilePhoto = null;
+    if (req.file) {
+      profilePhoto = req.file.filename;
+    }
+    await userService.createUser({
       username,
       email,
       password: hashedPassword,
@@ -45,49 +27,49 @@ const registerUser = async (req, res) => {
       profilePhoto,
     });
 
-    // Send success response
-    res.json({ message: "User registered successfully", user });
-  } catch (err) {
     res
-      .json({ message: "Error registering user", error: err.message });
+      .status(200)
+      .json({ success: true, message: "User registered successfully" });
+  } catch (err) {
+    return res.status(err.statusCode || 500).json({
+      success: false,
+      message: err.message || "Error in logging",
+    });
   }
 };
 
-// Login a user
 const loginUser = async (req, res) => {
-  const { emailOrUsername, password } = req.body;
+  const { email, username, password } = req.body;
 
   try {
     // Find user by email
-    const user = await userModel.findOne({  $or: [
-                                            { email: emailOrUsername },
-                                            { username: emailOrUsername }
-                                          ] });
-    if (!user) {
-      return res.json({ message: "User not found" });
-    }
+    const user = await userService.getUserByUsernameAndEmail({
+      username,
+      email,
+    });
 
     // Compare passwords
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await comparePassword(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      throw StatusError.unauthorized("Invalid credentials");
     }
 
     // Create JWT token
-    const token = createToken(user._id)
-    // Send response with token
+    const token = await userService.generateTokens(user._id);
+    if (!token) {
+      throw StatusError.badRequest("Token generation failed");
+    }
     res.json({
+      success: true,
+      user,
       token,
-      success:true
     });
   } catch (err) {
-    res.status(500).json({ message: "Error logging in", error: err.message });
+    return res.status(err.statusCode || 500).json({
+      success: false,
+      message: err.message || "Error in logging",
+    });
   }
 };
 
-const createToken = (id) =>{
-    return jwt.sign({id},process.env.JWT_SECRET)
-}
-
-
-export {registerUser, loginUser};
+export { registerUser, loginUser };

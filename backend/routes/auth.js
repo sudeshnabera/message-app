@@ -1,12 +1,11 @@
-import express from "express"
-import { loginUser, registerUser} from '../controllers/authController.js';
+import express from "express";
+import { loginUser, registerUser } from "../controllers/index.js";
+import { photoUpload, validate } from "../middleware/index.js";
+import { registerValidation } from "../validation/index.js";
 const authRouter = express.Router();
 
+authRouter.post("/register", photoUpload("profile").single("profilePhoto"), validate(registerValidation), registerUser);
 
-// POST /api/auth/register
-authRouter.post("/register", registerUser);
-
-// POST /api/auth/login
 authRouter.post("/login", loginUser);
 
 export default authRouter;

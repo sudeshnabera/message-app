@@ -1,9 +1,11 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config();
 
 //database connection
 export const connectDB = async () => {
    try {
-    await mongoose.connect("mongodb+srv://sudeshnabera976:Sudeshna2266@cluster0.yl9qhsh.mongodb.net/web-chat", {
+    await mongoose.connect(process.env.MONGO_URI, {
     });
     console.log("✅ MongoDB connected successfully");
   } catch (error) {

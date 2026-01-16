@@ -27,6 +27,13 @@
         </div>
         
         <div class="chat-input-container">
+            <div class="preview-box" id="previewBox">
+                <img v-for="(img, index) in chatDocs"
+                    :key="index"
+                    :src="img"
+                    class="preview-image" style="width:100px;"
+                />
+            </div>
             <div class="chat-input">
                 <div class="chat-actions">
                     <!-- Document Button -->
@@ -82,7 +89,7 @@ export default {
             messages: [],
             newMessage: '',
             selectedImages:[],
-            chatDocs: null
+            chatDocs: []
         };
     },
     computed: {
@@ -103,22 +110,26 @@ export default {
     },
     methods: {
         previewImages(event) {
-            const file = event.target.files[0];
-            if (file && file.type.startsWith('image/')) {
+            const files = event.target.files;
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                this.chatDocs = e.target.result;
+                this.chatDocs.push(e.target.result); // Store preview base64
+                
                 };
                 reader.readAsDataURL(file);
             }
         },
         sendMessage() {
-            if (this.newMessage.trim() === "") return;
+            if (this.newMessage.trim() === "" && this.chatDocs === null) return;
             const message = {
                 sender: this.userData._id,
                 content: this.newMessage,
-                chatDocs: this.chatDocs,
+               attachments:  this.chatDocs
             };
+             
+            console.log(message)
             if (this.isGroupChat) {
                 message.groupId = this.selectedChat._id;
             } else {
@@ -126,6 +137,7 @@ export default {
             }
              this.$socket.emit("send_message", message);
             this.newMessage = "";
+            this.chatDocs = null;
         },
         async getMessage(){
             const token = localStorage.getItem("token");
