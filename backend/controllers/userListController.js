@@ -1,42 +1,25 @@
-import userModel from "../models/user.js";
-import friendListModel from "../models/friendRequest.js";
+import { friendService, userService } from "../services/index.js";
 
-const getAllUsers = async (req, res) => {
-   const userId = req.user.id;
+export const getDiscoverUsers = async (req, res) => {
   try {
-    
-     const friendRequests = await friendListModel.find({
-      $or: [
-        { senderId: userId },
-        { receiverId: userId }
-      ]
-    });
-
-    // Step 2: Collect IDs of users already connected via any friend request
-    const connectedUserIds = new Set();
-    friendRequests.forEach(req => {
-      if (req.senderId.toString() !== userId) {
-        connectedUserIds.add(req.senderId.toString());
+    let userId = req.user.userId;
+    const friendConnections =
+      await friendService.getUserFriendConnections(userId);
+    const excludedUserIds = new Set([userId.toString()]);
+    friendConnections.forEach((c) => {
+      if (c.senderId.toString() !== userId.toString()) {
+        excludedUserIds.add(c.senderId.toString());
       }
-      if (req.receiverId.toString() !== userId) {
-        connectedUserIds.add(req.receiverId.toString());
+      if (c.receiverId.toString() !== userId.toString()) {
+        excludedUserIds.add(c.receiverId.toString());
       }
     });
 
     // Step 3: Query users who are not self and not already connected
-    const users = await userModel.find({
-      _id: {
-        $ne: userId,
-        $nin: Array.from(connectedUserIds),
-      }
-    });
-
+    let users = await userService.getUsers(userId, excludedUserIds);
     res.json({ success: true, users });
   } catch (error) {
-    console.error("Error in getAllUsers:", error);
-    res.status(500).json({ success: false, message: 'Error fetching users' });
+    console.error("Error in getDiscoverUsers:", error);
+    res.status(500).json({ success: false, message: "Error fetching users" });
   }
-
 };
-
-export { getAllUsers }; 

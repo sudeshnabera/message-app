@@ -1,8 +1,8 @@
-import { User } from "../../models/index.js";
+import { Friends, User } from "../../models/index.js";
 import { StatusError } from "../../config/statusError.js";
 
 export const getUserById = async (userId) => {
-  let user = await User.findOne({ userId });
+  let user = await User.findOne({ _id: userId });
   if (!user) {
     throw StatusError.notFound("user Not Found");
   }
@@ -10,7 +10,7 @@ export const getUserById = async (userId) => {
 };
 
 export const getUserByEmail = async (email) => {
-  let user = await User.findOne({ email });
+  let user = await User.findOne({ email:email });
   return user;
 };
 
@@ -29,12 +29,18 @@ export const getUserByUsernameAndEmail = async ({ username, email }) => {
 };
 
 export const updateUser = async (userId, updateData) => {
-  console.log("updateData",updateData);
-  console.log("userId",userId);
   const user = await User.findByIdAndUpdate(userId, updateData);
-  console.log("sdvxb",user);
-  
+
   // if (!user) {
   //   throw StatusError.notFound("User not found");
   // }
+};
+
+export const getUsers = async (userId, excludedUserIds) => {
+  const users = await User.find({
+    _id: {
+      $nin: Array.from(excludedUserIds),
+    },
+  });
+  return users;
 };

@@ -1,7 +1,8 @@
 import User from "./user.js";
-import FriendRequest from "./friendRequest.js";
+import Friends from "./friends.js";
 import Group from "./group.js";
 import Message from "./message.js";
 import UserPost from "./userPost.js";
 
-export { User, FriendRequest, Group, Message, UserPost };
+
+export { User, Friends, Group, Message, UserPost };

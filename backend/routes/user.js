@@ -1,5 +1,5 @@
 import express from "express";
-import { getProfile, updateProfile } from "../controllers/index.js";
+import { getProfile, updateProfile, getDiscoverUsers } from "../controllers/index.js";
 import { authMiddleware, photoUpload, validate } from "../middleware/index.js";
 import { updateProfileValidation } from "../validation/index.js";
 
@@ -11,7 +11,8 @@ userRoute.post(
   photoUpload("profile").single("profilePhoto"),
   authMiddleware,
   validate(updateProfileValidation),
-  updateProfile
+  updateProfile,
 );
+userRoute.get("/list", authMiddleware, getDiscoverUsers);
 
 export default userRoute;

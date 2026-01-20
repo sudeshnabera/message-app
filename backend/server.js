@@ -6,12 +6,10 @@ import { connectDB } from "./config/db.js";
 import {
   authRouter,
   userRoute,
-  userlistRoute,
-  friendRequestRoute,
+  friendRoute,
   createGroups,
   postRoute,
   messageRoute,
-  // friendsListRoute,
 } from "./routes/index.js";
 import { StatusError } from "./config/statusError.js";
 import { createMessage } from "./controllers/messageController.js";
@@ -47,12 +45,10 @@ app.use(
 
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRoute);
-app.use("/api/userlist", userlistRoute);
-app.use("/api/friendrequest", friendRequestRoute);
+app.use("/api/friend", friendRoute);
 app.use("/api/groups", createGroups);
 app.use("/api/post", postRoute);
 app.use("/api/messages", messageRoute);
-// app.use("/api/friends", friendsListRoute);
 
 //database connection
 connectDB();
