@@ -1,10 +1,14 @@
 import { registerUser, loginUser } from "./authController.js";
-
 import { getProfile, updateProfile } from "./userController.js";
-
 import { getAllFriends } from "./friendController.js";
 import { getDiscoverUsers } from "./userListController.js";
-import {sendFriendRequest, getFriendRequests, acceptFriendRequest} from "./friendRequestController.js"
+import {
+  sendFriendRequest,
+  getFriendRequests,
+  acceptFriendRequest,
+} from "./friendRequestController.js";
+import { createPost, getPost, deletePost, likePost, commentPost } from "./postController.js";
+
 export {
   registerUser,
   loginUser,
@@ -14,5 +18,10 @@ export {
   getDiscoverUsers,
   sendFriendRequest,
   getFriendRequests,
-  acceptFriendRequest
+  acceptFriendRequest,
+  createPost,
+  getPost,
+  deletePost,
+  likePost,
+  commentPost
 };

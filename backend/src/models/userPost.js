@@ -4,7 +4,7 @@ const userPostSchema = new mongoose.Schema(
   {
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, // who created the post
     text: { type: String, default: "" }, // text content (optional)
-    image: { type: String, default: null }, // image URL or filename (optional)
+    image: { type: [String], default: [] }, // image URL or filename (optional)
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }], // array of users who liked it
     comments: [
       {
@@ -15,7 +15,7 @@ const userPostSchema = new mongoose.Schema(
     ],
     status: {
       type: String,
-      enum: ["0", "1", "2"], // 0: offline, 1: online, 2: busy
+      enum: ["0", "1", "2"],
       default: "1",
     },
   },
@@ -25,7 +25,7 @@ const userPostSchema = new mongoose.Schema(
   }
 );
 
-const postModel =
-  mongoose.models.post || mongoose.model("Post", userPostSchema);
+const Post =
+  mongoose.models.Post || mongoose.model("Post", userPostSchema);
 
-export default postModel;
+export default Post;
