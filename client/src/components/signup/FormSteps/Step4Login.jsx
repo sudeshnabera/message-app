@@ -11,7 +11,7 @@ const Step4Login = ({ formData, updateFormData, prevStep, handleSubmit }) => {
         <input 
           type="text" 
           value={formData.username}
-          onChange={(e) => updateFormData({ email: e.target.value })}
+          onChange={(e) => updateFormData({ username: e.target.value })}
           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004953] focus:border-transparent"
         />
       </div>
@@ -21,7 +21,7 @@ const Step4Login = ({ formData, updateFormData, prevStep, handleSubmit }) => {
         <input 
           type="password" 
           value={formData.password}
-          onChange={(e) => updateFormData({ phone: e.target.value })}
+          onChange={(e) => updateFormData({ password: e.target.value })}
           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004953] focus:border-transparent"
         />
       </div>

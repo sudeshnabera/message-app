@@ -24,22 +24,7 @@
                   <span class="d-lg-none ms-2">Home</span>
                 </a>
               </li>
-      
-              <!-- News Feed -->
-              <!-- <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <i class="fas fa-newspaper"></i>
-                  <span class="d-lg-none ms-2">News Feed</span>
-                </a>
-              </li> -->
-      
-              <!-- Payments -->
-              <!-- <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <i class="fas fa-wallet"></i>
-                  <span class="d-lg-none ms-2">Payments</span>
-                </a>
-              </li> -->
+
       
               <!-- Notifications Dropdown -->
               <li class="nav-item dropdown">

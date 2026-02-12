@@ -1,5 +1,5 @@
 import express from "express";
-import { loginUser, registerUser } from "../controllers/index.js";
+import {  registerUser, loginUser } from "../controllers/index.js";
 import { photoUpload, validate } from "../middleware/index.js";
 import { registerValidation } from "../validation/index.js";
 const authRouter = express.Router();

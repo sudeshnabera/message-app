@@ -31,13 +31,15 @@ const ProgressBar = ({ current, stepNames }) => (
               )}
             </div>
           </div>
-          {stepNum < stepNames.length && (
-            <div 
-              className={`absolute top-4 right-0 h-1 bg-liner-to-r transition-all duration-300 ${
-                isActive ? 'bg-[#004953] w-3/4 transform scale-x-100' : 'bg-gray-300 w-3/4 transform scale-x-0'
-              }`}
-            />
-          )}
+          {stepNum < stepNames.length 
+          // && (
+            // <div 
+            //   className={`absolute top-4 right-0 h-1 bg-liner-to-r transition-all duration-300 ${
+            //     isActive ? 'bg-[#004953] w-3/4 transform scale-x-100' : 'bg-gray-300 w-3/4 transform scale-x-0'
+            //   }`}
+            // />
+          // )
+          }
         </div>
       );
     })}

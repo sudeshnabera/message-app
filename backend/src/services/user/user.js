@@ -18,9 +18,9 @@ export const createUser = async (userData) => {
   const user = await User.create(userData);
 };
 
-export const getUserByUsernameAndEmail = async ({ username, email }) => {
+export const getUserByUsernameAndEmail = async ({ emailOrUsername }) => {
   let user = await User.findOne({
-    $or: [{ username: username }, { email: email }],
+    $or: [{ username: emailOrUsername }, { email: emailOrUsername }],
   });
   if (!user) {
     throw StatusError.notFound("User not found");

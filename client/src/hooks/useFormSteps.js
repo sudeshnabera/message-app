@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
-import axios from 'axios';
+import { registerUser } from '../services/auth.services.js';
+
 
 export const useFormSteps = (formData) => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -25,7 +26,7 @@ export const useFormSteps = (formData) => {
 
   const handleSubmit = async () => {
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/register', formData);
+      const res = await registerUser(formData);
       alert('Sign up successful!');
       localStorage.setItem('token', res.data.token);
       window.location.href = '/login';

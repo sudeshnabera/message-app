@@ -1,12 +1,11 @@
-import React from 'react'
-
-import SignupForm from "./components/signup/SignupForm.jsx";
+import React from "react";
+import AppRoutes from "./routes/AppRoutes.jsx";
 const App = () => {
   return (
     <>
-     <SignupForm />
+      <AppRoutes />
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;

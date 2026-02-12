@@ -39,13 +39,13 @@ const registerUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  const { email, username, password } = req.body;
-
+  console.log("function called");
+  
+  const { emailOrUsername, password } = req.body;
   try {
     // Find user by email
     const user = await userService.getUserByUsernameAndEmail({
-      username,
-      email,
+      emailOrUsername
     });
 
     // Compare passwords
@@ -59,7 +59,8 @@ const loginUser = async (req, res) => {
     if (!token) {
       throw StatusError.badRequest("Token generation failed");
     }
-    res.json({
+    console.log("token", token,);
+    res.status(200).json({
       success: true,
       user,
       token,
