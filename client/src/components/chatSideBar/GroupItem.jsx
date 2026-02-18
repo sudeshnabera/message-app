@@ -1,8 +1,14 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const GroupItem = ({name, img}) => {
+   const navigate = useNavigate();
+  const openChat = () => {
+    navigate(`/chat/group`);
+  };
   return (
-    <div className="flex items-center gap-3 py-3 px-4  hover:bg-gray-100 cursor-pointer transition">
+    <div onClick={openChat}
+     className="flex items-center gap-3 py-3 px-4  hover:bg-gray-100 cursor-pointer transition">
       <img
         src={img}
         alt="group"

@@ -11,6 +11,9 @@ import {
   FaCog,
   FaSignOutAlt,
 } from "react-icons/fa";
+
+import { Link } from "react-router-dom";
+
 const NavBar = () => {
   const { user } = useContext(AuthContext);
   const [friendOpen, setFriendOpen] = useState(false);
@@ -78,29 +81,29 @@ const NavBar = () => {
 
             {friendOpen && (
               <div className="absolute right-0 mt-2 w-52 bg-white shadow-lg rounded-lg border">
-                <a
-                  href="/user/list"
+                <Link
+                  to="/add-friend"
                   className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100"
                 >
                   <FaUserPlus className="text-[#004953]" />
                   Add Friends
-                </a>
+                </Link>
 
-                <a
-                  href="/friend/request"
+                <Link
+                  to="/friend/request"
                   className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100"
                 >
                   <FaUserCheck className="text-[#004953]" />
                   Friend Requests
-                </a>
+                </Link>
 
-                <a
-                  href="/friends"
+                <Link
+                  to="/friends"
                   className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100"
                 >
                   <FaUserFriends className="text-[#004953]" />
                   Friends
-                </a>
+                </Link>
               </div>
             )}
           </div>

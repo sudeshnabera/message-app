@@ -4,21 +4,37 @@ import NavBar from "../components/navBar/NavBar";
 import ChatSidebar from "../components/chatSideBar/ChatSidebar";
 const MainLayout = () => {
   return (
-   <div className="h-screen flex flex-col bg-gray-100">
+    // <div className="h-screen flex flex-col bg-gray-100">
+    //   {/* Top Navbar */}
+    //   <NavBar />
 
-      {/* Top Navbar */}
+    //   {/* Body Section */}
+    //   <div className="flex flex-1 overflow-hidden">
+    //     {/* Left Sidebar */}
+    //     <ChatSidebar />
+
+    //     {/* Right Chat Area */}
+    //     <div className="flex-1 bg-white  overflow-y-auto">
+    //       <Outlet />
+    //     </div>
+    //   </div>
+    // </div>
+    <div className="h-screen flex flex-col bg-[#f4f6f9]">
+
       <NavBar />
 
-      {/* Body Section */}
       <div className="flex flex-1 overflow-hidden">
-
+        
         {/* Left Sidebar */}
-        <ChatSidebar />
+        <div className="w-70 bg-white border-r border-gray-200">
+          <ChatSidebar />
+        </div>
 
-        {/* Right Chat Area */}
-        <div className="flex-1 bg-white p-6 overflow-y-auto">
+        {/* Main Content Only */}
+        <div className="flex-1 overflow-y-auto p-6">
           <Outlet />
         </div>
+
       </div>
     </div>
   );

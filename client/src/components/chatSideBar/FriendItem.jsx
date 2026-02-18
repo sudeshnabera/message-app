@@ -1,8 +1,16 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
-const FriendItem = ({name,img,message}) => {
+const FriendItem = ({ name, img, message }) => {
+  const navigate = useNavigate();
+  const openChat = () => {
+    navigate(`/chat`);
+  };
   return (
-    <div className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 cursor-pointer">
+    <div
+      className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 cursor-pointer"
+      onClick={openChat}
+    >
       <div className="relative">
         <img
           src={img}
@@ -14,9 +22,7 @@ const FriendItem = ({name,img,message}) => {
 
       <div className="flex-1">
         <p className="text-sm font-semibold text-gray-800">{name}</p>
-        <p className="text-xs text-gray-500 truncate">
-          {message}
-        </p>
+        <p className="text-xs text-gray-500 truncate">{message}</p>
       </div>
     </div>
   );
