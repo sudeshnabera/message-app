@@ -7,7 +7,7 @@ import {
   getFriendRequests,
   acceptFriendRequest,
 } from "./friendRequestController.js";
-import { createPost, getPost, deletePost, likePost, commentPost } from "./postController.js";
+import { createPost, getPost, deletePost, likePost, commentPost, sharePost } from "./postController.js";
 
 export {
   registerUser,
@@ -23,5 +23,6 @@ export {
   getPost,
   deletePost,
   likePost,
-  commentPost
+  commentPost,
+  sharePost
 };

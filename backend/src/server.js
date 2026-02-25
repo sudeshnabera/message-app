@@ -15,7 +15,7 @@ import { StatusError } from "./config/statusError.js";
 import { createMessage } from "./controllers/messageController.js";
 import { errors } from "celebrate";
 import "dotenv/config";
-
+import path from "path"
 //app connection
 const app = express();
 const server = createServer(app);
@@ -34,14 +34,7 @@ io.on("connection", (socket) => {
 app.use(cors());
 app.use(express.json());
 
-app.use(
-  "/images",
-  express.static("uploads/posts", {
-    setHeaders: (res, path) => {
-      res.set("Cross-Origin-Resource-Policy", "cross-origin");
-    },
-  })
-);
+app.use("/uploads", express.static(path.join(process.cwd(), "src/uploads")));
 
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRoute);

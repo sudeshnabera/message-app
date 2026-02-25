@@ -39,7 +39,7 @@ const registerUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  console.log("function called");
+  console.log("function called", req.body);
   
   const { emailOrUsername, password } = req.body;
   try {

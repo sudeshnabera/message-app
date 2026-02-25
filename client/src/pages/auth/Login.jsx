@@ -12,7 +12,7 @@ const Login = () => {
     e.preventDefault(e);
     let response = await loginUser(credentials);
     login(response.data)
-    console.log("response", response);
+    window.location.href = '/home';
   };
 
   const handleInputChange = (e) => {

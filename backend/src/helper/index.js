@@ -1,3 +1,4 @@
 import { hashPassword, comparePassword } from "./passwordHelper.js";
+import { appendBaseUrl } from "./appendBaseUrl.js";
 
-export { hashPassword, comparePassword };
+export { hashPassword, comparePassword, appendBaseUrl };

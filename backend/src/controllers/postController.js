@@ -1,15 +1,17 @@
 import { postService } from "../services/index.js";
 
 const createPost = async (req, res) => {
+  console.log("function called");
+
   try {
     const userId = req.user.userId;
-    const text = req.body.text;
+    const caption = req.body.caption;
 
     const imagePaths = req.files.map((file) => file.filename); // or `file.path` if you want full path
 
     const newPost = {
       user: userId,
-      text: text || "",
+      caption: caption || "",
       image: imagePaths || [],
     };
 
@@ -70,7 +72,11 @@ const likePost = async (req, res) => {
 
     await userPost.save();
 
-    res.json({ success: true, likes: userPost.likes.length, message: alreadyLiked ? "Post unliked" : "Post liked" });
+    res.json({
+      success: alreadyLiked ? false : true,
+      likes: userPost.likes.length,
+      message: alreadyLiked ? "Post unliked" : "Post liked",
+    });
   } catch (error) {
     console.error("Post like error:", error);
     res.json({ success: false, message: "Server Error" });
@@ -98,4 +104,24 @@ const commentPost = async (req, res) => {
   }
 };
 
-export { createPost, getPost, deletePost, likePost, commentPost };
+const sharePost = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const { postId, caption } = req.body;
+    console.log(req.body);
+    
+    let sharePostData = {
+      user: userId,
+      caption: caption,
+      sharedPost: postId,
+    };
+
+    await postService.sharePost(sharePostData);
+    res.status(200).json({ success: true, message: "Post Share successfully" });
+  } catch (error) {
+    console.error("Post comment error:", error);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+
+export { createPost, getPost, deletePost, likePost, commentPost, sharePost };
