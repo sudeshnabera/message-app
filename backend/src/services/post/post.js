@@ -20,6 +20,34 @@ export const getPost = async () => {
         select: "name profilePhoto",
       },
     })
+    .populate({
+      path: "comments",
+      populate: {
+        path: "user",
+        select: "name profilePhoto",
+      },
+    })
+    .sort({ createdAt: -1 });
+  return appendBaseUrl(posts, "image", "post");
+};
+
+export const getPostByUserId = async (userId) => {
+  const posts = await Post.find({user:userId})
+    .populate("user", "name profilePhoto")
+    .populate({
+      path: "sharedPost",
+      populate: {
+        path: "user",
+        select: "name profilePhoto",
+      },
+    })
+    .populate({
+      path: "comments",
+      populate: {
+        path: "user",
+        select: "name profilePhoto",
+      },
+    })
     .sort({ createdAt: -1 });
   return appendBaseUrl(posts, "image", "post");
 };

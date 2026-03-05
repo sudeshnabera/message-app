@@ -6,6 +6,7 @@ import {
   likePost,
   commentPost,
   sharePost,
+  getPostByUserId
 } from "../controllers/index.js";
 import { authMiddleware, photoUpload } from "../middleware/index.js";
 
@@ -18,6 +19,7 @@ postRoute.post(
   createPost,
 );
 postRoute.get("/get", authMiddleware, getPost);
+postRoute.get("/user/:userId", authMiddleware, getPostByUserId);
 postRoute.post("/delete", authMiddleware, deletePost);
 postRoute.post("/like", authMiddleware, likePost);
 postRoute.post("/comment", authMiddleware, commentPost);

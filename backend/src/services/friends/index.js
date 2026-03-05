@@ -4,7 +4,8 @@ import {
   getFriendStatus,
   createFriendRequest,
   getAllFriendRequests,
-  getFriendRequestById
+  getFriendRequestById,
+  unFriend
 } from "./friendsList.js";
 
 export {
@@ -13,5 +14,6 @@ export {
   getFriendStatus,
   createFriendRequest,
   getAllFriendRequests,
-  getFriendRequestById
+  getFriendRequestById,
+  unFriend
 };

@@ -5,8 +5,14 @@ const sendFriendRequest = async (req, res) => {
   try {
     const senderId = req.user.userId;
     const { receiverId } = req.body;
+    if (!receiverId) {
+      throw StatusError.badRequest("Receiver ID is required");
+    }
+
     if (senderId === receiverId) {
-      throw StatusError.badRequest("You can't send a request to yourself.");
+      throw StatusError.badRequest(
+        "You can't send a friend request to yourself",
+      );
     }
 
     // Check if receiver exists in User model
@@ -34,11 +40,12 @@ const sendFriendRequest = async (req, res) => {
 const getFriendRequests = async (req, res) => {
   try {
     const userId = req.user.userId;
-
+    console.log("Function called", userId);
+    
     // Fetch all friend requests where current user is the receiver
     const requests = await friendService.getAllFriendRequests(userId);
 
-    res.json({ success: true, friendRequests: requests });
+    res.status(200).json({ success: true,  requests });
   } catch (err) {
     res.json({ message: "Error fetching friend requests", error: err.message });
   }
@@ -48,11 +55,13 @@ const acceptFriendRequest = async (req, res) => {
   try {
     const userId = req.user.userId;
     const { requestId } = req.body;
-
+    if (!requestId) {
+      throw Status.badRequest("requestId is require for accept friend request");
+    }
     // Find the friend request
     const friendRequest = await friendService.getFriendRequestById(
       requestId,
-      userId
+      userId,
     );
 
     if (!friendRequest) {
@@ -104,9 +113,27 @@ const getAcceptedFriend = async (req, res) => {
   }
 };
 
+const unFriend = async (req, res) => {
+  try {
+    const { senderId, receiverId } = req.body;
+    console.log(req.body);
+
+    if (!senderId || !receiverId) {
+      throw StatusError.badRequest("senderId or receiverId not provided");
+    }
+    await friendService.unFriend(senderId, receiverId);
+    res
+      .status(200)
+      .json({ success: true, message: "Unfriend Successfully Done" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+};
+
 export {
   getFriendRequests,
   sendFriendRequest,
   acceptFriendRequest,
   getAcceptedFriend,
+  unFriend,
 };

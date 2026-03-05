@@ -1,8 +1,6 @@
 import { postService } from "../services/index.js";
 
 const createPost = async (req, res) => {
-  console.log("function called");
-
   try {
     const userId = req.user.userId;
     const caption = req.body.caption;
@@ -29,6 +27,18 @@ const createPost = async (req, res) => {
 const getPost = async (req, res) => {
   try {
     const userPost = await postService.getPost();
+    res.status(200).json({ success: true, userPost });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Server Error", error: error.message });
+  }
+};
+const getPostByUserId = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const userPost = await postService.getPostByUserId(userId);
     res.status(200).json({ success: true, userPost });
   } catch (error) {
     res
@@ -108,8 +118,7 @@ const sharePost = async (req, res) => {
   try {
     const userId = req.user.userId;
     const { postId, caption } = req.body;
-    console.log(req.body);
-    
+
     let sharePostData = {
       user: userId,
       caption: caption,
@@ -124,4 +133,12 @@ const sharePost = async (req, res) => {
   }
 };
 
-export { createPost, getPost, deletePost, likePost, commentPost, sharePost };
+export {
+  createPost,
+  getPost,
+  deletePost,
+  likePost,
+  commentPost,
+  sharePost,
+  getPostByUserId,
+};

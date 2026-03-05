@@ -6,8 +6,8 @@ export const getAllFriends = async (userId) => {
     $or: [{ senderId: userId }, { receiverId: userId }],
     status: "accepted",
   })
-    .populate("senderId", "username email")
-    .populate("receiverId", "username email");
+    .populate("senderId")
+    .populate("receiverId");
   if (!friends || friends.length === 0) {
     throw StatusError.notFound("No friends found");
   }
@@ -53,7 +53,7 @@ export const getAllFriendRequests = async (userId) => {
     receiverId: userId,
     status: "pending",
   })
-    .populate("senderId", "name email bio bod phone gender profilePhoto")
+    .populate("senderId")
     .sort({ createdAt: -1 });
   if (!requests || requests.length === 0) {
     throw StatusError.notFound("No friend requests found");
@@ -70,4 +70,19 @@ export const getFriendRequestById = async (requestId, userId) => {
     throw StatusError.notFound("Friend request not found");
   }
   return friendRequest;
+};
+
+export const unFriend = async (senderId, receiverId) => {
+  const unfriend = await Friends.findOneAndDelete({
+    $or: [
+      { senderId: senderId, receiverId: receiverId },
+      { senderId: receiverId, receiverId: senderId },
+    ],
+    status: "accepted",
+  });
+
+  if (unfriend > 0) {
+    throw StatusError.forbidden("You are not allowed to unfriend this user");
+  }
+  return unfriend;
 };

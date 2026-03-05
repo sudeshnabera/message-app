@@ -18,8 +18,6 @@ const createMessage = async (io, socket) => {
       const message = new messageModel(data);
       await message.save();
 
-      
-
       if (data.receiver) {
         socket.emit('receive_message', message);
         io.to(data.receiver).emit('receive_message', message);

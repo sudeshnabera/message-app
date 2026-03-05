@@ -24,7 +24,7 @@ export const getAllFriends = async (req, res) => {
     //   }
     // }
 
-    res.status(200).json({ friends: friendList });
+    res.status(200).json({ success:true, friendList });
   } catch (error) {
     console.error("Error fetching friends:", error);
     res
