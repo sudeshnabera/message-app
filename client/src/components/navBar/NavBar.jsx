@@ -114,9 +114,17 @@ const NavBar = () => {
               onClick={() => setProfileOpen(!profileOpen)}
               className="rounded-full overflow-hidden w-10 h-10 border-2 border-[#004953]"
             >
-              <img
+              {/* <img
                 src={user?.profilePhoto || "/default-avatar.png"}
                 alt="Profile"
+                className="w-full h-full object-cover"
+              /> */}
+              <img
+                src={
+                  user?.profilePhoto ||
+                  `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name)}&background=random`
+                }
+                alt={user?.name}
                 className="w-full h-full object-cover"
               />
             </button>

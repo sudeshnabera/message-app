@@ -1,9 +1,10 @@
 import React, { createContext, useEffect, useState } from "react";
-import { getPost } from "../services/post.services.js";
+import { getPost, getPostByUser } from "../services/post.services.js";
 export const PostContext = createContext();
 
 export const PostProvider = ({ children }) => {
   const [post, setPost] = useState([]);
+  const [userPost, setUserPost] = useState([]);
   const fetchPosts = async () => {
     try {
       const response = await getPost();
@@ -17,11 +18,23 @@ export const PostProvider = ({ children }) => {
       console.log(error);
     }
   };
+
+  const getPostByUserId = async (userId) => {
+    try {
+      const response = await getPostByUser(userId);
+      setUserPost(response.data.userPost)
+    } catch (error) {
+       console.log(error);
+    }
+  };
+
   useEffect(() => {
     fetchPosts();
   }, []);
 
   return (
-    <PostContext.Provider value={{ post, fetchPosts }}>{children}</PostContext.Provider>
+    <PostContext.Provider value={{ post, fetchPosts, getPostByUserId, userPost }}>
+      {children}
+    </PostContext.Provider>
   );
 };

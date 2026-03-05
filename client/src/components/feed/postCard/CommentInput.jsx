@@ -23,11 +23,18 @@ const CommentInput = ({ user, postId, setComments }) => {
   };
   return (
     <div className="flex items-center gap-3 px-5 py-4 border-t border-gray-100">
-      <img
+      {/* <img
         src={user.profilePhoto}
         className="w-9 h-9 rounded-full object-cover"
+      /> */}
+      <img
+        src={
+          user?.profilePhoto ||
+          `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=random`
+        }
+        alt={user.name}
+        className="w-9 h-9 rounded-full object-cover shrink-0 ring-2 ring-gray-100"
       />
-
       <input
         type="text"
         name="text"

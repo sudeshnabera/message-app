@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 import CreatePost from "../../components/feed/CreatePost";
 import PostCard from "../../components/feed/postCard/PostCard.jsx";
 import { PostContext } from "../../context/PostContext";
+
 const FeedPage = () => {
-  
   const { post } = useContext(PostContext);
 
   return (

@@ -1,6 +1,21 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import { PostContext } from "../../context/PostContext.jsx";
+import PostCard from "../feed/postCard/PostCard.jsx";
+import { FriendContext } from "../../context/FriendContext.jsx";
 
-const UserProfileModal = ({onClose, user, variant}) => {
+const UserProfileModal = ({
+  onClose,
+  user,
+  variant,
+  onMessage,
+  loggedinUser,
+}) => {
+  const { getPostByUserId, userPost } = useContext(PostContext);
+  const { handelUnfriend, sendFriendRequest } = useContext(FriendContext);
+  useEffect(() => {
+    getPostByUserId(user._id);
+  }, [user]);
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Overlay */}
@@ -10,7 +25,7 @@ const UserProfileModal = ({onClose, user, variant}) => {
       />
 
       {/* Modal Card */}
-      <div className="relative bg-white rounded-2xl shadow-xl w-[90%] max-w-md p-6 animate-scaleIn">
+      <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-md p-6 animate-scaleIn">
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -20,9 +35,17 @@ const UserProfileModal = ({onClose, user, variant}) => {
         </button>
 
         {/* Profile Info */}
-        <div className="flex flex-col items-center text-center">
-          <img
+        <div className="flex flex-col items-center text-center space-y-3 max-h-120 overflow-y-auto">
+          {/* <img
             src={user.profilePhoto}
+            alt={user.name}
+            className="w-24 h-24 rounded-full object-cover mb-4"
+          /> */}
+          <img
+            src={
+              user.profilePhoto ||
+              `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=random`
+            }
             alt={user.name}
             className="w-24 h-24 rounded-full object-cover mb-4"
           />
@@ -33,10 +56,16 @@ const UserProfileModal = ({onClose, user, variant}) => {
 
           <p className="text-sm text-slate-400 mb-4">{user.email}</p>
 
-           <div className="mt-3 flex gap-2 flex-wrap justify-center sm:justify-start">
+          <div className="mt-3 flex gap-2 flex-wrap justify-center sm:justify-start">
             {/* 🔥 Suggested Friend */}
             {variant === "suggestion" && (
-              <button className="px-3 py-1 text-xs rounded bg-[#004953] text-white">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  sendFriendRequest(user._id);
+                }}
+                className="px-3 py-1 text-xs rounded bg-[#004953] text-white"
+              >
                 Add Friend
               </button>
             )}
@@ -57,14 +86,30 @@ const UserProfileModal = ({onClose, user, variant}) => {
             {/* 🔥 Existing Friend */}
             {variant === "friend" && (
               <>
-                <button className="px-3 py-1 text-xs rounded bg-[#004953] text-white">
+                <button
+                  onClick={onMessage}
+                  className="px-3 py-1 text-xs rounded bg-[#004953] text-white"
+                >
                   Message
                 </button>
 
-                <button className="px-3 py-1 text-xs rounded bg-gray-200 text-gray-700">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handelUnfriend(user._id, loggedinUser._id);
+                  }}
+                  className="px-3 py-1 text-xs rounded bg-gray-200 text-gray-700"
+                >
                   Unfriend
                 </button>
               </>
+            )}
+          </div>
+          <div className="mt-4">
+            {userPost?.length > 0 ? (
+              userPost.map((p) => <PostCard key={p._id} post={p} />)
+            ) : (
+              <p className="text-sm text-gray-400 mt-4">No posts</p>
             )}
           </div>
         </div>

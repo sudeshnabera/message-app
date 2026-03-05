@@ -3,11 +3,14 @@ import "./index.css";
 import App from "./App.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import { PostProvider } from "./context/PostContext.jsx";
+import { FriendProvider } from "./context/FriendContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <AuthProvider>
     <PostProvider>
-      <App />
+      <FriendProvider>
+        <App />
+      </FriendProvider>
     </PostProvider>
   </AuthProvider>,
 );

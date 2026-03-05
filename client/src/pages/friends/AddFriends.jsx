@@ -1,24 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import FriendCard from "../../components/friends/FriendCard.jsx";
 import UserProfileModal from "../../components/friends/UserProfileModal.jsx";
+import { FriendContext } from "../../context/FriendContext.jsx";
 const AddFriends = () => {
+  const { fetchSuggestions, suggestions } = useContext(FriendContext);
   const [selectedUser, setSelectedUser] = useState(null);
-  const users = [
-    {
-      _id: "1",
-      name: "Sarah Johnson",
-      bio: "Frontend Developer | Vue & React",
-      email: "sarah@example.com",
-      profilePhoto: "https://randomuser.me/api/portraits/women/44.jpg",
-    },
-    {
-      _id: "2",
-      name: "John Smith",
-      bio: "Full Stack Developer",
-      email: "john@example.com",
-      profilePhoto: "https://randomuser.me/api/portraits/men/32.jpg",
-    },
-  ];
+
+  useEffect(() => {
+    fetchSuggestions();
+  }, []);
 
   return (
     <div className="p-6 h-screen w-full bg-white">
@@ -53,7 +43,7 @@ const AddFriends = () => {
 
       {/* User Grid */}
       <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
-        {users.map((user) => (
+        {suggestions.map((user) => (
           <FriendCard
             key={user._id}
             user={user}

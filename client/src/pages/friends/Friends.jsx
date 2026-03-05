@@ -1,25 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import FriendCard from "../../components/friends/FriendCard.jsx";
 import UserProfileModal from "../../components/friends/UserProfileModal.jsx";
+import { FriendContext } from "../../context/FriendContext.jsx";
+import { useNavigate } from "react-router-dom";
 
 const Friends = () => {
+  const { friends, fetchFriends } = useContext(FriendContext);
   const [selectedUser, setSelectedUser] = useState(null);
-  const users = [
-    {
-      _id: "1",
-      name: "Sarah Johnson",
-      bio: "Frontend Developer | Vue & React",
-      email: "sarah@example.com",
-      profilePhoto: "https://randomuser.me/api/portraits/women/44.jpg",
-    },
-    {
-      _id: "2",
-      name: "John Smith",
-      bio: "Full Stack Developer",
-      email: "john@example.com",
-      profilePhoto: "https://randomuser.me/api/portraits/men/32.jpg",
-    },
-  ];
+  const loggedinUser = JSON.parse(localStorage.getItem("user"));
+  useEffect(() => {
+    fetchFriends();
+  }, []);
+
+  const navigate = useNavigate();
 
   return (
     <div className="p-6 h-screen w-full bg-white">
@@ -54,11 +47,16 @@ const Friends = () => {
 
       {/* User Grid */}
       <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
-        {users.map((user) => (
+        {friends.map((user) => (
           <FriendCard
             key={user._id}
             user={user}
+            loggedinUser={loggedinUser}
             onClick={() => setSelectedUser(user)}
+            onMessage={() => {
+              setSelectedUser(null);
+              navigate(`/chat`);
+            }}
             variant="friend"
           />
         ))}
@@ -67,6 +65,10 @@ const Friends = () => {
         <UserProfileModal
           user={selectedUser}
           onClose={() => setSelectedUser(null)}
+          onMessage={() => {
+            setSelectedUser(null);
+            navigate(`/chat`);
+          }}
           variant="friend"
         />
       )}

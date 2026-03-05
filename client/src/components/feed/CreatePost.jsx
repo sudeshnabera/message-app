@@ -66,10 +66,18 @@ const CreatePost = ({}) => {
   return (
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
       <div className="flex items-center gap-3 mb-4">
-        <img
+        {/* <img
           src={user?.profilePhoto}
           alt="User"
           className="w-11 h-11 rounded-full"
+        /> */}
+        <img
+          src={
+            user?.profilePhoto ||
+            `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name)}&background=random`
+          }
+          alt={user?.name}
+          className="w-10 h-10 rounded-full object-cover shrink-0 ring-2 ring-gray-100"
         />
         <input
           type="text"

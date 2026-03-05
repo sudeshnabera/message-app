@@ -5,7 +5,6 @@ export const getPost = () => {
 };
 
 export const createPost = (postData) => {
-  debugger;
   return api.post("/post/create", postData);
 };
 
@@ -18,8 +17,9 @@ export const commentPost = (postId, comment) => {
 };
 
 export const sharePost = (postId, caption) => {
-  console.log(postId);
-  console.log(caption);
-
   return api.post("/post/share", postId, caption);
+};
+
+export const getPostByUser = (userId) => {
+  return api.get(`/post/user/${userId}`);
 };

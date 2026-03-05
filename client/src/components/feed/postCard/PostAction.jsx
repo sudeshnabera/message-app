@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { likePost } from "../../../services/post.services";
 import ShareModal from "./ShareModal";
+import CommentModal from "./CommentModal";
 
 const PostAction = ({ post, comments }) => {
   const user = JSON.parse(localStorage.getItem("user")); // or from context
@@ -8,6 +9,7 @@ const PostAction = ({ post, comments }) => {
   const [likesCount, setLikesCount] = useState(post.likes.length);
   const [isLiked, setIsLiked] = useState(post.likes.includes(user._id));
   const [openShare, setOpenShare] = useState(false);
+  const [openCommrnts, setOpenCommrnts] = useState(false);
 
   const handleLike = async () => {
     const previousLiked = isLiked;
@@ -37,10 +39,18 @@ const PostAction = ({ post, comments }) => {
         <span>{likesCount}</span>
       </button>
 
-      <button className="flex items-center gap-2 hover:text-blue-500">
+      <button
+        onClick={() => setOpenCommrnts(true)}
+        className="flex items-center gap-2 hover:text-blue-500"
+      >
         💬 <span>{comments.length}</span>
       </button>
-
+      {openCommrnts && (
+        <CommentModal
+          comments={comments}
+          onClose={() => setOpenCommrnts(false)}
+        />
+      )}
       <button
         onClick={() => setOpenShare(true)}
         className="flex items-center gap-2 hover:text-green-500"

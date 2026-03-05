@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import FriendCard from "../../components/friends/FriendCard.jsx";
 import UserProfileModal from "../../components/friends/UserProfileModal.jsx";
+import { FriendContext } from "../../context/FriendContext.jsx";
 
 const FriendRequests = () => {
+  const { fetchFriendRequest, requests } = useContext(FriendContext);
   const [selectedUser, setSelectedUser] = useState(null);
+
   const users = [
     {
       _id: "1",
@@ -20,6 +23,10 @@ const FriendRequests = () => {
       profilePhoto: "https://randomuser.me/api/portraits/men/32.jpg",
     },
   ];
+
+  useEffect(() => {
+    fetchFriendRequest();
+  }, []);
 
   return (
     <div className="p-6 h-screen w-full bg-white">
