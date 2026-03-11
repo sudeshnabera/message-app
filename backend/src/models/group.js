@@ -14,15 +14,11 @@ const groupSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   }],
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
   groupPhoto: {
       type: String,
       default: null,
     }
-});
+},{ timestamps: true });
 
 const groupModel = mongoose.models.group || mongoose.model('Group', groupSchema);
 

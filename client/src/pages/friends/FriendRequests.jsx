@@ -6,23 +6,7 @@ import { FriendContext } from "../../context/FriendContext.jsx";
 const FriendRequests = () => {
   const { fetchFriendRequest, requests } = useContext(FriendContext);
   const [selectedUser, setSelectedUser] = useState(null);
-
-  const users = [
-    {
-      _id: "1",
-      name: "Sarah Johnson",
-      bio: "Frontend Developer | Vue & React",
-      email: "sarah@example.com",
-      profilePhoto: "https://randomuser.me/api/portraits/women/44.jpg",
-    },
-    {
-      _id: "2",
-      name: "John Smith",
-      bio: "Full Stack Developer",
-      email: "john@example.com",
-      profilePhoto: "https://randomuser.me/api/portraits/men/32.jpg",
-    },
-  ];
+  const loggedinUser = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     fetchFriendRequest();
@@ -61,11 +45,13 @@ const FriendRequests = () => {
 
       {/* User Grid */}
       <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
-        {users.map((user) => (
+        {requests?.map((f) => (
           <FriendCard
-            key={user._id}
-            user={user}
-            onClick={() => setSelectedUser(user)}
+            key={f._id}
+            user={f.senderId}
+            requestId={f._id}
+            loggedinUser={loggedinUser}
+            onClick={() => setSelectedUser(f)}
             variant="request"
           />
         ))}
@@ -73,6 +59,7 @@ const FriendRequests = () => {
       {selectedUser && (
         <UserProfileModal
           user={selectedUser}
+          requestId={f._id}
           onClose={() => setSelectedUser(null)}
           variant="request"
         />

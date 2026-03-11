@@ -1,8 +1,20 @@
 import React, { useContext } from "react";
 import { FriendContext } from "../../context/FriendContext";
 
-const FriendCard = ({ user, onClick, variant, onMessage, loggedinUser }) => {
-  const { handelUnfriend, sendFriendRequest,  } = useContext(FriendContext);
+const FriendCard = ({
+  user,
+  onClick,
+  variant,
+  onMessage,
+  loggedinUser,
+  requestId,
+}) => {
+  const {
+    handleUnfriend,
+    sendFriendRequest,
+    handleAcceptRequest,
+    handleRejectRequest,
+  } = useContext(FriendContext);
 
   return (
     <div
@@ -48,11 +60,23 @@ const FriendCard = ({ user, onClick, variant, onMessage, loggedinUser }) => {
             {/* 🔥 Friend Request */}
             {variant === "request" && (
               <>
-                <button className="px-3 py-1 text-xs rounded bg-[#004953] text-white">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleAcceptRequest(requestId, loggedinUser._id);
+                  }}
+                  className="px-3 py-1 text-xs rounded bg-[#004953] text-white"
+                >
                   Accept
                 </button>
 
-                <button className="px-3 py-1 text-xs rounded bg-white border border-[#004953] text-[#004953]">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleRejectRequest(requestId, loggedinUser._id);
+                  }}
+                  className="px-3 py-1 text-xs rounded bg-white border border-[#004953] text-[#004953]"
+                >
                   Reject
                 </button>
               </>
@@ -71,7 +95,7 @@ const FriendCard = ({ user, onClick, variant, onMessage, loggedinUser }) => {
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    handelUnfriend(user._id, loggedinUser._id);
+                    handleUnfriend(user._id, loggedinUser._id);
                   }}
                   className="px-3 py-1 text-xs rounded bg-gray-200 text-gray-700"
                 >

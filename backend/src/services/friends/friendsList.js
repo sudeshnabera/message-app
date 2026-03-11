@@ -17,6 +17,7 @@ export const getAllFriends = async (userId) => {
 export const getUserFriendConnections = async (userId) => {
   const friendConnections = await Friends.find({
     $or: [{ senderId: userId }, { receiverId: userId }],
+    status: { $in: ["pending", "accepted"] }
   });
 
   // if (!friendConnections  || friendConnections .length === 0) {
@@ -86,3 +87,5 @@ export const unFriend = async (senderId, receiverId) => {
   }
   return unfriend;
 };
+
+export const rejectFriendRequest = async () => {};

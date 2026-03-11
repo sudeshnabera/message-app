@@ -8,7 +8,6 @@ export const PostProvider = ({ children }) => {
   const fetchPosts = async () => {
     try {
       const response = await getPost();
-
       if (response.data.success) {
         setPost(response.data.userPost);
       } else {

@@ -6,7 +6,8 @@ import {
   sendFriendRequest,
   getFriendRequests,
   acceptFriendRequest,
-  unFriend
+  unFriend,
+  rejectFriendRequest
 } from "./friendRequestController.js";
 import {
   createPost,
@@ -35,5 +36,6 @@ export {
   commentPost,
   sharePost,
   getPostByUserId,
-  unFriend
+  unFriend,
+  rejectFriendRequest
 };

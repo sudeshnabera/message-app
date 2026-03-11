@@ -3,6 +3,6 @@ import Friends from "./friends.js";
 import Group from "./group.js";
 import Message from "./message.js";
 import Post from "./userPost.js";
+import Message from "./message.js";
 
-
-export { User, Friends, Group, Message, Post };
+export { User, Friends, Group, Message, Post, Message };

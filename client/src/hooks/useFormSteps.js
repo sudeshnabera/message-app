@@ -1,11 +1,11 @@
 import { useState, useCallback } from 'react';
 import { registerUser } from '../services/auth.services.js';
-
+import { useNavigate } from "react-router-dom";
 
 export const useFormSteps = (formData) => {
   const [currentStep, setCurrentStep] = useState(1);
   const stepNames = ['Name', 'Contact', 'Birth', 'Submit'];
-
+  const navigate = useNavigate()
   const nextStep = useCallback(() => {
     if (currentStep < 4) setCurrentStep(prev => prev + 1);
   }, [currentStep]);
@@ -29,7 +29,7 @@ export const useFormSteps = (formData) => {
       const res = await registerUser(formData);
       alert('Sign up successful!');
       localStorage.setItem('token', res.data.token);
-      window.location.href = '/login';
+      navigate('/login');
     } catch (err) {
       console.error(err);
       alert(err.response?.data?.message || 'Sign up failed!');

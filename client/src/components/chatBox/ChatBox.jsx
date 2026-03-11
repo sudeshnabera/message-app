@@ -10,12 +10,16 @@ import {
 } from "lucide-react";
 import ChatBoxHeader from "./ChatBoxHeader.jsx";
 import ChatBoxMessages from "./ChatBoxMessages.jsx";
+import { useLocation } from "react-router-dom";
 
 const ChatBox = () => {
+  const location = useLocation();
+  const name = location.state?.name;
+  const img = location.state?.img;
   return (
     <div className="w-full h-162.5 bg-white shadow-lg flex flex-col overflow-hidden">
       {/* Header */}
-      <ChatBoxHeader />
+      <ChatBoxHeader name={name} img={img} />
       {/* Messages */}
       <ChatBoxMessages />
       {/* Input Section */}

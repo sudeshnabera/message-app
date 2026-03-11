@@ -2,17 +2,20 @@ import React, { useContext, useState } from "react";
 import { loginUser } from "../../services/auth.services.js";
 import "./Login.css";
 import { AuthContext } from "../../context/AuthContext.jsx";
+import { useNavigate } from "react-router-dom";
+
 const Login = () => {
   const [credentials, setCredentials] = useState({
     emailOrUsername: "",
     password: "",
   });
   const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault(e);
     let response = await loginUser(credentials);
-    login(response.data)
-    window.location.href = '/home';
+    login(response.data);
+    navigate("/home");
   };
 
   const handleInputChange = (e) => {

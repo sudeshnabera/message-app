@@ -1,5 +1,6 @@
 import { Friends, User } from "../../models/index.js";
 import { StatusError } from "../../config/statusError.js";
+import { appendBaseUrl } from "../../helper/appendBaseUrl.js";
 
 export const getUserById = async (userId) => {
   let user = await User.findOne({ _id: userId });
@@ -25,7 +26,7 @@ export const getUserByUsernameAndEmail = async ({ emailOrUsername }) => {
   if (!user) {
     throw StatusError.notFound("User not found");
   }
-  return user;
+  return appendBaseUrl(user, "profilePhoto", "profile");
 };
 
 export const updateUser = async (userId, updateData) => {

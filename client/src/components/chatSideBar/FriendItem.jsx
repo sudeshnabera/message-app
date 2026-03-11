@@ -4,7 +4,12 @@ import { useNavigate } from "react-router-dom";
 const FriendItem = ({ name, img, message }) => {
   const navigate = useNavigate();
   const openChat = () => {
-    navigate(`/chat`);
+    navigate(`/chat`,{
+      state: {
+        name: name,
+        img: img
+      }
+    });
   };
   return (
     <div

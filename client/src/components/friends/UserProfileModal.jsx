@@ -9,9 +9,15 @@ const UserProfileModal = ({
   variant,
   onMessage,
   loggedinUser,
+  requestId,
 }) => {
   const { getPostByUserId, userPost } = useContext(PostContext);
-  const { handelUnfriend, sendFriendRequest } = useContext(FriendContext);
+  const {
+    handelUnfriend,
+    sendFriendRequest,
+    handleAcceptRequest,
+    handleRejectRequest,
+  } = useContext(FriendContext);
   useEffect(() => {
     getPostByUserId(user._id);
   }, [user]);
@@ -73,11 +79,23 @@ const UserProfileModal = ({
             {/* 🔥 Friend Request */}
             {variant === "request" && (
               <>
-                <button className="px-3 py-1 text-xs rounded bg-[#004953] text-white">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleAcceptRequest(requestId, loggedinUser._id);
+                  }}
+                  className="px-3 py-1 text-xs rounded bg-[#004953] text-white"
+                >
                   Accept
                 </button>
 
-                <button className="px-3 py-1 text-xs rounded bg-white border border-[#004953] text-[#004953]">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleRejectRequest(requestId, loggedinUser._id);
+                  }}
+                  className="px-3 py-1 text-xs rounded bg-white border border-[#004953] text-[#004953]"
+                >
                   Reject
                 </button>
               </>

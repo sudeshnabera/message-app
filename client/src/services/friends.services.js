@@ -16,10 +16,14 @@ export const createFriendRequest = (receiverId) => {
   return api.post("/friend/send", { receiverId });
 };
 
-export const acceptFriendRequest = (receiverId) => {
-  return api.post("/friend/accept", { receiverId });
+export const acceptFriendRequest = (requestId) => {
+  return api.post("/friend/accept", { requestId });
 };
 
 export const getFriendRequest = () =>{
     return api.get("/friend/requests");
+}
+
+export const rejectFriendRequest = (requestId) =>{
+  return api.post("/friend/reject", {requestId})
 }

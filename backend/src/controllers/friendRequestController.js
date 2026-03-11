@@ -40,12 +40,11 @@ const sendFriendRequest = async (req, res) => {
 const getFriendRequests = async (req, res) => {
   try {
     const userId = req.user.userId;
-    console.log("Function called", userId);
-    
+
     // Fetch all friend requests where current user is the receiver
     const requests = await friendService.getAllFriendRequests(userId);
 
-    res.status(200).json({ success: true,  requests });
+    res.status(200).json({ success: true, requests });
   } catch (err) {
     res.json({ message: "Error fetching friend requests", error: err.message });
   }
@@ -56,7 +55,9 @@ const acceptFriendRequest = async (req, res) => {
     const userId = req.user.userId;
     const { requestId } = req.body;
     if (!requestId) {
-      throw Status.badRequest("requestId is require for accept friend request");
+      throw StatusError.badRequest(
+        "requestId is required for accept friend request",
+      );
     }
     // Find the friend request
     const friendRequest = await friendService.getFriendRequestById(
@@ -116,7 +117,6 @@ const getAcceptedFriend = async (req, res) => {
 const unFriend = async (req, res) => {
   try {
     const { senderId, receiverId } = req.body;
-    console.log(req.body);
 
     if (!senderId || !receiverId) {
       throw StatusError.badRequest("senderId or receiverId not provided");
@@ -130,10 +130,48 @@ const unFriend = async (req, res) => {
   }
 };
 
+const rejectFriendRequest = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+
+    const { requestId } = req.body;
+    if (!requestId) {
+      throw StatusError.badRequest(
+        "requestId is required for accept friend request",
+      );
+    }
+    // Find the friend request
+    const friendRequest = await friendService.getFriendRequestById(
+      requestId,
+      userId,
+    );
+
+    if (!friendRequest) {
+      return res.json({
+        message: "Friend request not found or already processed.",
+      });
+    }
+
+    // Update the status to "accepted"
+    friendRequest.status = "rejected";
+    await friendRequest.save();
+
+    res.json({
+      success: true,
+      message: "Friend request accepted successfully.",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 export {
   getFriendRequests,
   sendFriendRequest,
   acceptFriendRequest,
   getAcceptedFriend,
   unFriend,
+  rejectFriendRequest,
 };

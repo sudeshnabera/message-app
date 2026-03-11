@@ -43,7 +43,7 @@ const AddFriends = () => {
 
       {/* User Grid */}
       <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
-        {suggestions.map((user) => (
+        {suggestions?.map((user) => (
           <FriendCard
             key={user._id}
             user={user}

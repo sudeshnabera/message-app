@@ -12,28 +12,35 @@ import ChatSection from "../pages/chats/ChatSection.jsx";
 import AddFriends from "../pages/friends/AddFriends.jsx";
 import FriendRequests from "../pages/friends/FriendRequests.jsx";
 import Friends from "../pages/friends/Friends.jsx";
+import ProtectedRoute from "../components/protectedRoute/ProtectedRoute.jsx";
+import { Toaster } from "react-hot-toast";
+import NotFoundRedirect from "../components/protectedRoute/NotFoundRedirect.jsx";
 
 const AppRoutes = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<AuthLayout />}>
-          <Route path="/" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-        </Route>
+    <>
+      <Toaster position="top-right" />
+      <BrowserRouter>
+        <Routes>
+          <Route element={<AuthLayout />}>
+            <Route path="/" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+          </Route>
 
-        <Route element={<MainLayout />}>
-          {/* <Route path="/navbar" element={<NavBar />}/>
-          <Route path="/chat-sidebar" element={<ChatSidebar/>}/> */}
-          <Route path="/home" element={<FeedPage />} />
-          <Route path="/chat" element={<ChatSection />} />
-          <Route path="/chat/group" element={<ChatSection />} />
-          <Route path="/add-friend" element={<AddFriends />} />
-          <Route path="/friend/request" element={<FriendRequests />} />
-          <Route path="/friends" element={<Friends />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+          <Route element={<ProtectedRoute />}>
+            <Route element={<MainLayout />}>
+              <Route path="/home" element={<FeedPage />} />
+              <Route path="/chat" element={<ChatSection />} />
+              <Route path="/chat/group" element={<ChatSection />} />
+              <Route path="/add-friend" element={<AddFriends />} />
+              <Route path="/friend/request" element={<FriendRequests />} />
+              <Route path="/friends" element={<Friends />} />
+            </Route>
+          </Route>
+          <Route path="*" element={<NotFoundRedirect />} />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 };
 

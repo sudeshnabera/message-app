@@ -29,7 +29,7 @@ io.on("connection", (socket) => {
   console.log("a user connected");
   createMessage(io, socket);
 });
-
+  
 // Middleware
 app.use(cors());
 app.use(express.json());

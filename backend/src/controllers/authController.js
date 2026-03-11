@@ -39,7 +39,6 @@ const registerUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  console.log("function called", req.body);
   
   const { emailOrUsername, password } = req.body;
   try {
@@ -59,7 +58,6 @@ const loginUser = async (req, res) => {
     if (!token) {
       throw StatusError.badRequest("Token generation failed");
     }
-    console.log("token", token,);
     res.status(200).json({
       success: true,
       user,

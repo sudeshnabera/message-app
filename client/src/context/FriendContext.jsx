@@ -5,6 +5,7 @@ import {
   getAllFriends,
   getFriendRequest,
   getFriendSuggestion,
+  rejectFriendRequest,
   unFriend,
 } from "../services/friends.services";
 
@@ -19,7 +20,7 @@ export const FriendProvider = ({ children }) => {
     const res = await getAllFriends();
     setFriends(res.data.friendList);
   };
-  const handelUnfriend = async (senderId, receiverId) => {
+  const handleUnfriend = async (senderId, receiverId) => {
     const response = await unFriend(senderId, receiverId);
   };
 
@@ -33,12 +34,16 @@ export const FriendProvider = ({ children }) => {
   };
 
   const fetchFriendRequest = async () => {
-    const res = await getFriendRequest()
-    setRequests(res.data.requests.senderId)
+    const res = await getFriendRequest();
+    setRequests(res.data.requests);
   };
 
-  const handleAcceptRequest = async (receiverId) => {
-    await acceptFriendRequest(receiverId);
+  const handleAcceptRequest = async (requestId) => {
+    await acceptFriendRequest(requestId);
+  };
+
+  const handleRejectRequest = async (requestId) => {
+    await rejectFriendRequest(requestId)
   };
   return (
     <FriendContext.Provider
@@ -47,11 +52,12 @@ export const FriendProvider = ({ children }) => {
         requests,
         suggestions,
         fetchFriends,
-        handelUnfriend,
+        handleUnfriend,
         fetchSuggestions,
         sendFriendRequest,
         fetchFriendRequest,
         handleAcceptRequest,
+        handleRejectRequest
       }}
     >
       {children}

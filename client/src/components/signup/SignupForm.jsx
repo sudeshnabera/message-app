@@ -29,12 +29,13 @@ const SignupForm = () => {
     canGoNext,
     handleSubmit,
   } = useFormSteps(formData);
-  const { previewImage, imageRef, fileInputRef } = useImagePreview(setFormData);
+  const { previewImage, imageRef, fileInputRef, previewUrl } = useImagePreview(setFormData);
 
   const updateFormData = (newData) => {
     setFormData((prev) => ({ ...prev, ...newData }));
   };
-
+  console.log(formData);
+  
   const renderStep = () => {
     switch (currentStep) {
       case 1:
@@ -43,6 +44,7 @@ const SignupForm = () => {
             formData={formData}
             updateFormData={updateFormData}
             previewImage={previewImage}
+            previewUrl={previewUrl}
             imageRef={imageRef}
             fileInputRef={fileInputRef}
             nextStep={nextStep}
