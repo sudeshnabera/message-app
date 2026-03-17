@@ -1,27 +1,48 @@
-import React from "react";
-import {
-  Paperclip,
-  Camera,
-  SmilePlus,
-  Mic,
-  Send,
-  Video,
-  Phone,
-} from "lucide-react";
+import { useContext, useState, useEffect } from "react";
+import { Paperclip, Camera, SmilePlus, Mic, Send } from "lucide-react";
 import ChatBoxHeader from "./ChatBoxHeader.jsx";
 import ChatBoxMessages from "./ChatBoxMessages.jsx";
 import { useLocation } from "react-router-dom";
+import { useSocket } from "../../hooks/useSocket.js";
+import { AuthContext } from "../../context/AuthContext.jsx";
+import { MessageContext } from "../../context/MessageContext";
 
 const ChatBox = () => {
+  const { messages, fetchMessages, setMessages } = useContext(MessageContext);
+  const { user } = useContext(AuthContext);
+  const [message, setMessage] = useState("");
   const location = useLocation();
   const name = location.state?.name;
   const img = location.state?.img;
+  const receiverId = location.state?.id;
+  const socket = useSocket();
+
+  useEffect(() => {
+    fetchMessages(receiverId);
+  }, [receiverId]);
+
+  const sendMessage = () => {
+    if (!message.trim()) return;
+
+    const newMessage = {
+      content: message,
+      sender: user._id,
+      receiver: receiverId,
+    };
+
+    socket.emit("send_message", newMessage);
+
+    // optimistic UI update
+    // setMessages((prev) => [...prev, newMessage]);
+    setMessage("");
+  };
+
   return (
     <div className="w-full h-162.5 bg-white shadow-lg flex flex-col overflow-hidden">
       {/* Header */}
       <ChatBoxHeader name={name} img={img} />
       {/* Messages */}
-      <ChatBoxMessages />
+      <ChatBoxMessages messages={messages} currentUserId={user?._id} />
       {/* Input Section */}
       <div className="border-t p-4">
         {/* Preview Images */}
@@ -57,12 +78,19 @@ const ChatBox = () => {
           {/* Input */}
           <input
             type="text"
+            value={message}
+            onChange={(e) => {
+              setMessage(e.target.value);
+            }}
             placeholder="Type a message..."
             className="flex-1 bg-transparent outline-none text-sm px-2"
           />
 
           {/* Send Button */}
-          <button className="bg-[#004953] text-white w-9 h-9 flex items-center justify-center rounded-full hover:bg-[#00363f] transition">
+          <button
+            onClick={sendMessage}
+            className="bg-[#004953] text-white w-9 h-9 flex items-center justify-center rounded-full hover:bg-[#00363f] transition"
+          >
             <Send size={20} />
           </button>
         </div>

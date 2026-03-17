@@ -15,7 +15,7 @@ import { StatusError } from "./config/statusError.js";
 import { createMessage } from "./controllers/messageController.js";
 import { errors } from "celebrate";
 import "dotenv/config";
-import path from "path"
+import path from "path";
 //app connection
 const app = express();
 const server = createServer(app);
@@ -29,7 +29,7 @@ io.on("connection", (socket) => {
   console.log("a user connected");
   createMessage(io, socket);
 });
-  
+
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -50,6 +50,7 @@ app.use(errors());
 app.use(StatusError);
 // Start server
 const PORT = process.env.PORT || 5000;
+
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

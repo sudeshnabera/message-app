@@ -3,7 +3,7 @@ import React, { createContext, useState, useEffect } from "react";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({});
   const [token, setToken] = useState(null);
   // Load user from localStorage when app starts
   useEffect(() => {
@@ -26,7 +26,6 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
   };
-  console.log("user",user);
   
   return (
     <AuthContext.Provider value={{ user, token, login, logout }}>

@@ -7,7 +7,7 @@ import {
   getFriendRequests,
   acceptFriendRequest,
   unFriend,
-  rejectFriendRequest
+  rejectFriendRequest,
 } from "./friendRequestController.js";
 import {
   createPost,
@@ -18,7 +18,7 @@ import {
   sharePost,
   getPostByUserId,
 } from "./postController.js";
-
+import { createGroups, fetchUserGroups } from "./groupController.js";
 export {
   registerUser,
   loginUser,
@@ -37,5 +37,7 @@ export {
   sharePost,
   getPostByUserId,
   unFriend,
-  rejectFriendRequest
+  rejectFriendRequest,
+  createGroups,
+  fetchUserGroups
 };

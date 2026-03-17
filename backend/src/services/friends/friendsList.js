@@ -17,7 +17,7 @@ export const getAllFriends = async (userId) => {
 export const getUserFriendConnections = async (userId) => {
   const friendConnections = await Friends.find({
     $or: [{ senderId: userId }, { receiverId: userId }],
-    status: { $in: ["pending", "accepted"] }
+    status: { $in: ["pending", "accepted"] },
   });
 
   // if (!friendConnections  || friendConnections .length === 0) {
@@ -89,3 +89,21 @@ export const unFriend = async (senderId, receiverId) => {
 };
 
 export const rejectFriendRequest = async () => {};
+
+export const getGroupMember = async (userId, memberIds) => {
+  console.log("Function called", memberIds);
+  
+  let validMember = await Friends.find({
+    status: "accepted",
+    $or: [
+      { senderId: userId, receiverId: { $in: memberIds } },
+      { receiverId: userId, senderId: { $in: memberIds } },
+    ],
+  });
+
+  if (!validMember || validMember.length === 0) {
+    throw StatusError.notFound("No friend requests found");
+  }
+
+  return validMember;
+};

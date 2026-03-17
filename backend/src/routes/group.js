@@ -2,11 +2,17 @@ import express from "express";
 import {
   createGroups,
   fetchUserGroups,
-} from "../controllers/groupController.js";
-import { authMiddleware } from "../middleware/auth.js";
+} from "../controllers/index.js";
+import { authMiddleware, photoUpload } from "../middleware/index.js";
+
 const groupsRoute = express.Router();
 
-groupsRoute.post("/create", authMiddleware, createGroups);
+groupsRoute.post(
+  "/create",
+  photoUpload("group").single("groupPhoto"),
+  authMiddleware,
+  createGroups,
+);
 groupsRoute.get("/get", authMiddleware, fetchUserGroups);
 
 export default groupsRoute;

@@ -1,3 +1,4 @@
+import { appendBaseUrl } from "../helper/appendBaseUrl.js";
 import { friendService } from "../services/index.js";
 
 export const getAllFriends = async (req, res) => {
@@ -6,7 +7,7 @@ export const getAllFriends = async (req, res) => {
   try {
     const friends = await friendService.getAllFriends(userId);
 
-    const friendList = friends.map((friend) => {
+    const friend = friends.map((friend) => {
       if (friend.senderId._id.equals(userId)) {
         return friend.receiverId;
       } else {
@@ -23,7 +24,7 @@ export const getAllFriends = async (req, res) => {
     //     uniqueFriends.push(friend);
     //   }
     // }
-
+    const friendList = appendBaseUrl(friend, "profilePhoto", "profile")
     res.status(200).json({ success:true, friendList });
   } catch (error) {
     console.error("Error fetching friends:", error);

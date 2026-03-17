@@ -1,26 +1,25 @@
-import React, { useContext, useEffect } from "react";
 import FriendItem from "./FriendItem";
-import { FriendContext } from "../../context/FriendContext";
 
-const FriendList = () => {
-  const { friends, fetchFriends  } = useContext(FriendContext)
+const FriendList = ({friends}) => {
   
-  useEffect(()=>{
-    fetchFriends()
-  },[])
 
   return (
     <div className="flex-1 overflow-y-auto">
       {/* Active Friend */}
 
-      {friends.map((f)=>(
-        <FriendItem
-        img={f.profilePhoto}
-        name={f.name}
-        message={"Hey! Are we meeting today?"}
-      />
-      ))}
-      
+      {friends?.length > 0 ? (
+        friends?.map((f) => (
+          <FriendItem
+            key={f._id}
+            img={f.profilePhoto}
+            name={f.name}
+            id={f._id}
+            message={"Hey! Are we meeting today?"}
+          />
+        ))
+      ) : (
+        <div>No Friends</div>
+      )}
     </div>
   );
 };

@@ -6,7 +6,8 @@ import {
   getAllFriendRequests,
   getFriendRequestById,
   unFriend,
-  rejectFriendRequest
+  rejectFriendRequest,
+  getGroupMember
 } from "./friendsList.js";
 
 export {
@@ -17,5 +18,6 @@ export {
   getAllFriendRequests,
   getFriendRequestById,
   unFriend,
-  rejectFriendRequest
+  rejectFriendRequest,
+  getGroupMember
 };
